@@ -27,7 +27,7 @@ Pair it with **speech-to-text** to give voice orders as you would to a real **su
 
 ## One command. It builds itself from there.
 
-Open Claude Code in your project folder, then run this in the terminal:
+Open Claude Code in your **project root folder** (so it has access to all subfolders — development, marketing, docs, everything), then run this in the terminal:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/bernardohcrocha/claude-code-os/main/setup.sh | bash
