@@ -36,6 +36,14 @@ The goal: get **as close as possible to having a real super employee.** Pair it 
 
 ---
 
+**Not a template you fill in. A system that builds around you.**
+
+Every company gets a different result: a brain built from your documents, dashboards generated from your actual data, skills shaped by your specific instructions. The longer you use it, the more it fits how you work.
+
+And because everything lives in git: every brain update is committed automatically. Permanent log that never deletes. Push to GitHub and you have a cloud backup that stays in sync. Restore any file, any version, anytime.
+
+---
+
 ## Quick Start
 
 Open Claude Code in your project and paste:
@@ -130,6 +138,8 @@ _brain/
 | **Self-improving** | Skills evolve from your instructions. Every correction makes it permanently smarter. |
 | **Proactive** | Reads your business, suggests actions, documents processes. Doesn't wait to be asked. |
 | **Local files** | No remote server, no database. Lives in your project: portable, versionable, fully owned. |
+| **Builds around you** | Not generic. Every brain, dashboard, and skill is shaped by your specific company, data, and instructions. |
+| **Git as your safety net** | Every brain update is auto-committed. Permanent log. Push to GitHub for a cloud backup that stays in sync. Restore anything, anytime. |
 
 ---
 
