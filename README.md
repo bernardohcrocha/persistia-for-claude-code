@@ -21,7 +21,7 @@ You're running a real company solo. You already have Stripe, Supabase, code, doc
 
 Fully local. Your API keys stay on your machine. No infrastructure to set up. No remote server. No data leaving your environment. Just open your project, paste one command, and let it ask you what it needs.
 
-Pair it with **speech-to-text** to give voice orders as you would to a real **super employee** — ask questions, delegate tasks, and let it run on autopilot. ([handy.computer](https://handy.computer) and [Wispr Flow](https://wisprflow.ai/) work great for this.)
+Pair it with **speech-to-text** to give voice orders as you would to a real **super employee** — ask questions, delegate tasks, and let it run on autopilot ([handy.computer](https://handy.computer) and [Wispr Flow](https://wisprflow.ai/) work great for this).
 
 ---
 
