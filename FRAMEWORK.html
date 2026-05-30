@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Claude Code OS — Framework</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:         #0d1117;
+      --bg-2:       #161b22;
+      --bg-3:       #1c2128;
+      --border:     #30363d;
+      --border-sub: #21262d;
+      --text:       #e6edf3;
+      --muted:      #8b949e;
+      --dim:        #484f58;
+      --green:      #3fb950;
+      --blue:       #79c0ff;
+      --purple:     #bc8cff;
+      --yellow:     #e3b341;
+      --red:        #f85149;
+      --cyan:       #56d364;
+      --orange:     #ffa657;
+      --claude:     #da7756;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 13px;
+    }
+
+    /* ── TERMINAL CHROME ── */
+    .brain-header {
+      background: var(--bg-2);
+      border-bottom: 1px solid var(--border);
+      padding: .6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .terminal-chrome { display: flex; align-items: center; gap: .85rem; }
+    .terminal-dots   { display: flex; gap: .4rem; align-items: center; }
+    .dot { width: .65rem; height: .65rem; border-radius: 50%; }
+    .dot-red    { background: #f85149; }
+    .dot-yellow { background: #e3b341; }
+    .dot-green  { background: #3fb950; }
+    .file-id    { font-size: .65rem; color: var(--dim); letter-spacing: .06em; }
+    .file-title { font-size: .78rem; font-weight: 600; color: var(--muted); }
+
+    .stamps { display: flex; gap: 2rem; }
+    .stamp  { text-align: right; }
+    .stamp .label { display: block; font-size: .58rem; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); }
+    .stamp .abs   { font-size: .72rem; font-weight: 600; color: var(--muted); }
+    .stamp .rel   { font-size: .67rem; color: var(--dim); }
+    .stamp.fresh .abs { color: var(--green); }
+    .stamp.stale .abs { color: var(--red); }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 960px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+
+    /* ── ASCII BANNER ── */
+    .ascii-banner {
+      display: flex; flex-direction: column; align-items: center;
+      margin-bottom: 2rem; padding: 2rem 2.5rem;
+      border: 1px solid rgba(218, 119, 86, 0.28);
+      border-radius: 10px;
+      box-shadow: 0 0 48px rgba(218, 119, 86, 0.07), inset 0 0 60px rgba(218, 119, 86, 0.02);
+    }
+    .ascii-the {
+      color: var(--claude); opacity: .7; font-size: .88rem;
+      letter-spacing: .22em; font-weight: 600;
+      margin-bottom: .4rem;
+    }
+    .ascii-title {
+      background: none; border: none; padding: 0; margin: 0;
+      font-size: .62rem; line-height: 1.32;
+      color: var(--claude); overflow-x: auto;
+      white-space: pre; display: inline-block;
+    }
+    .ascii-title + .ascii-title { margin-top: .4rem; }
+    .ascii-os { color: var(--dim); }
+
+    .subtitle {
+      font-size: .8rem; color: var(--muted);
+      margin-bottom: 2rem; line-height: 1.8;
+    }
+    .prompt-sign { color: var(--green); user-select: none; }
+
+    /* ── VALUE SECTION ── */
+    .value-intro {
+      font-size: .85rem; color: var(--text); line-height: 1.7;
+      border-left: 3px solid var(--claude); padding-left: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .value-intro span { color: var(--claude); font-weight: 700; }
+    .value-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden; margin-bottom: 1rem;
+    }
+    .value-card { background: var(--bg-2); padding: 1.25rem 1.5rem; }
+    .value-card-label {
+      font-size: .6rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .14em; margin-bottom: .85rem; display: flex;
+      align-items: center; gap: .5rem;
+    }
+    .value-card.ask .value-card-label   { color: var(--blue); }
+    .value-card.ask .value-card-label::before   { content: '?'; }
+    .value-card.exec .value-card-label  { color: var(--green); }
+    .value-card.exec .value-card-label::before  { content: '❯'; }
+    .value-items { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+    .value-item {
+      font-size: .76rem; color: var(--muted);
+      background: var(--bg); border: 1px solid var(--border-sub);
+      border-radius: 4px; padding: .35rem .65rem;
+      font-style: italic;
+    }
+    .value-item::before { content: '"'; color: var(--dim); }
+    .value-item::after  { content: '"'; color: var(--dim); }
+    .voice-callout {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-left: 3px solid var(--claude); border-radius: 6px;
+      padding: .85rem 1.1rem; font-size: .78rem; color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .voice-callout strong {
+      display: block; font-size: .62rem; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--claude); margin-bottom: .35rem;
+    }
+    .voice-tool {
+      display: inline-block; border: 1px solid var(--claude);
+      color: var(--claude); border-radius: 3px;
+      padding: .05rem .35rem; font-size: .68rem; font-weight: 700;
+      margin: 0 .1rem;
+    }
+    @media (max-width: 640px) {
+      .value-grid { grid-template-columns: 1fr; }
+    }
+
+    h2 {
+      font-size: .68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .14em; color: var(--claude);
+      margin: 2.75rem 0 1rem;
+      display: flex; align-items: center; gap: .75rem;
+    }
+    h2::before { content: '▸'; font-size: .8rem; }
+    h2::after  { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    p { font-size: .82rem; color: var(--muted); margin-bottom: .75rem; line-height: 1.75; }
+
+    /* ── TABLES ── */
+    table { width: 100%; border-collapse: collapse; margin: .75rem 0 1.25rem; font-size: .78rem; }
+    th {
+      background: var(--bg-2); text-align: left;
+      padding: .5rem .75rem; color: var(--dim);
+      font-size: .62rem; text-transform: uppercase; letter-spacing: .1em;
+      border-bottom: 1px solid var(--border); font-weight: 700;
+    }
+    td { padding: .5rem .75rem; border-bottom: 1px solid var(--border-sub); color: var(--muted); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { color: var(--blue); font-weight: 600; }
+    tbody tr:hover td { background: var(--bg-2); }
+
+    /* ── INLINE CODE ── */
+    code {
+      font-family: inherit;
+      background: var(--bg-2); color: var(--cyan);
+      padding: .1rem .35rem; border-radius: 3px;
+      font-size: .78rem; border: 1px solid var(--border-sub);
+    }
+
+    /* ── CODE BLOCKS ── */
+    pre {
+      background: var(--bg-2); color: var(--text);
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 1.25rem 1.5rem; overflow-x: auto;
+      font-size: .76rem; line-height: 1.85; margin: .75rem 0 1.25rem;
+    }
+    pre .c { color: var(--dim); }
+    pre .k { color: var(--blue); }
+    pre .v { color: var(--green); }
+    pre .p { color: var(--yellow); }
+    pre .s { color: var(--orange); }
+
+    /* ── FOLDER TREE ── */
+    .tree {
+      background: var(--bg-2); color: var(--text);
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 1.25rem 1.5rem; font-size: .76rem; line-height: 2.1;
+      margin: .75rem 0 1.25rem; white-space: pre; overflow-x: auto;
+    }
+    .tree .d { color: var(--blue); font-weight: 700; }
+    .tree .f { color: var(--text); }
+    .tree .c { color: var(--dim); }
+    .tree .a { color: var(--green); }
+
+    /* ── TAGS ── */
+    .tag {
+      display: inline-block; padding: .1rem .4rem; border-radius: 3px;
+      font-size: .62rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; white-space: nowrap;
+      border: 1px solid currentColor;
+    }
+    .core     { color: var(--blue); }
+    .sales    { color: var(--green); }
+    .mkt      { color: var(--orange); }
+    .dev      { color: var(--claude); }
+    .ops      { color: var(--yellow); }
+    .auto-tag { color: var(--cyan); }
+    .man-tag  { color: var(--dim); }
+
+    /* ── CALLOUTS ── */
+    .callout {
+      border-radius: 4px; padding: .85rem 1.1rem; margin: 1rem 0;
+      font-size: .78rem; background: var(--bg-2); border: 1px solid var(--border);
+    }
+    .callout.info { border-left: 3px solid var(--blue); }
+    .callout.tip  { border-left: 3px solid var(--green); }
+    .callout strong {
+      display: block; font-size: .62rem; text-transform: uppercase;
+      letter-spacing: .08em; margin-bottom: .35rem; color: var(--blue);
+    }
+    .callout em { color: var(--muted); font-style: normal; }
+
+    /* ── ACTIVATE BOX ── */
+    .activate-box {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
+      border-radius: 6px; padding: 1.5rem 1.75rem;
+      margin: .75rem 0 1.5rem;
+    }
+    .activate-label {
+      font-size: .6rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .12em; color: var(--green); margin-bottom: .85rem;
+    }
+    .activate-box > div > p { color: var(--muted); margin-bottom: .5rem; font-size: .8rem; }
+    .trigger-phrase {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 4px; padding: .85rem 1rem;
+      font-size: .85rem; color: var(--text); font-style: italic;
+      margin: .75rem 0; display: flex; align-items: center; gap: .6rem;
+    }
+    .trigger-phrase::before { content: '❯'; color: var(--green); font-weight: 700; font-style: normal; }
+    .cursor {
+      display: inline-block; width: .5rem; height: 1em;
+      background: var(--green); margin-left: .2rem;
+      vertical-align: text-bottom;
+      animation: blink 1.1s step-end infinite;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    .activate-note { font-size: .72rem !important; color: var(--dim) !important; margin-bottom: 0 !important; }
+
+    /* ── PROTOCOL BOX ── */
+    .protocol-box {
+      border: 1px solid var(--border); border-radius: 6px;
+      overflow: hidden; margin: .75rem 0 1.5rem;
+    }
+    .protocol-label {
+      background: var(--bg-3); border-bottom: 1px solid var(--border);
+      padding: .55rem 1.25rem; font-size: .6rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .12em; color: var(--claude);
+    }
+    .protocol-step { display: flex; border-bottom: 1px solid var(--border-sub); }
+    .protocol-step:last-child { border-bottom: none; }
+    .protocol-num {
+      min-width: 3.5rem; background: var(--bg-2);
+      border-right: 1px solid var(--border-sub);
+      display: flex; align-items: flex-start; justify-content: center;
+      padding-top: .95rem; font-size: .68rem; font-weight: 700; color: var(--claude);
+    }
+    .protocol-content { padding: .85rem 1.25rem; flex: 1; }
+    .protocol-content strong { display: block; font-size: .82rem; margin-bottom: .3rem; color: var(--text); font-weight: 600; }
+    .protocol-content p { font-size: .76rem; color: var(--muted); margin: 0; }
+    .protocol-questions { list-style: none; margin: .6rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .45rem; }
+    .protocol-questions li { font-size: .76rem; color: var(--muted); display: flex; gap: .6rem; align-items: baseline; }
+    .q-cat {
+      display: inline-block; padding: .1rem .35rem; border-radius: 3px;
+      font-size: .58rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; border: 1px solid var(--blue);
+      color: var(--blue); white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* ── UPDATE BOX ── */
+    .update-box {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-left: 3px solid var(--claude);
+      border-radius: 6px; padding: 1rem 1.25rem; margin-top: 1.5rem;
+    }
+    .update-box .label {
+      font-size: .6rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--claude); display: block; margin-bottom: .5rem;
+    }
+    .update-box pre {
+      background: none; color: var(--muted); padding: 0;
+      font-size: .76rem; line-height: 1.75; margin: 0; border: none;
+    }
+
+    /* ── STEPS ── */
+    .steps { counter-reset: step; list-style: none; margin: .75rem 0 1.25rem; }
+    .steps li {
+      counter-increment: step; display: flex; gap: .85rem;
+      align-items: flex-start; margin-bottom: .65rem; font-size: .8rem; color: var(--muted);
+    }
+    .steps li::before {
+      content: '[0' counter(step) ']';
+      color: var(--claude); font-weight: 700; font-size: .7rem;
+      white-space: nowrap; flex-shrink: 0; margin-top: .18rem;
+    }
+    .steps li span strong { color: var(--text); }
+
+    footer {
+      margin-top: 3.5rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      font-size: .68rem; color: var(--dim);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     HEADER STAMP — reusable pattern for every brain file
+     Only change LAST_UPDATED and NEXT_UPDATE when saving
+     ════════════════════════════════════════════════ -->
+<header class="brain-header">
+  <div class="terminal-chrome">
+    <div class="terminal-dots">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+    </div>
+    <div>
+      <div class="file-id">claude-code-os · meta</div>
+      <div class="file-title">FRAMEWORK.html</div>
+    </div>
+  </div>
+  <div class="stamps">
+    <div class="stamp" id="stamp-last">
+      <span class="label">Last updated</span>
+      <span class="abs" id="last-abs">—</span>
+      <span class="rel" id="last-rel">—</span>
+    </div>
+    <div class="stamp" id="stamp-next">
+      <span class="label">Next update</span>
+      <span class="abs" id="next-abs">—</span>
+      <span class="rel" id="next-rel">—</span>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="ascii-banner">
+    <pre class="ascii-title"> ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗
+██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝
+██║     ██║     ███████║██║   ██║██║  ██║█████╗
+██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝
+╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗
+ ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝</pre>
+    <pre class="ascii-title"> ██████╗  ██████╗ ██████╗ ███████╗ <span class="ascii-os"> ██████╗ ███████╗</span>
+██╔════╝ ██╔═══██╗██╔══██╗██╔════╝ <span class="ascii-os">██╔═══██╗██╔════╝</span>
+██║      ██║   ██║██║  ██║█████╗   <span class="ascii-os">██║   ██║███████╗</span>
+██║      ██║   ██║██║  ██║██╔══╝   <span class="ascii-os">██║   ██║╚════██║</span>
+╚██████╗ ╚██████╔╝██████╔╝███████╗ <span class="ascii-os">╚██████╔╝███████║</span>
+ ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝ <span class="ascii-os"> ╚═════╝ ╚══════╝</span></pre>
+  </div>
+
+  <p class="subtitle">
+    <span class="prompt-sign">~/claude-code-os $</span> Open source. File-based. No lock-in.<br>
+    Connect your tools → answer a few questions → get your company co-pilot.<br>
+    Give orders. Ask questions. Get stuff done.
+  </p>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>What You Get</h2>
+
+  <p class="value-intro">A <span>single source of truth</span> that Claude Code reads before every action. Your entire company — revenue, customers, pipeline, product, support — accessible in plain language. Ask questions. Give orders. Everything gets executed.</p>
+
+  <div class="value-grid">
+    <div class="value-card ask">
+      <div class="value-card-label">Ask anything</div>
+      <ul class="value-items">
+        <li class="value-item">How's my revenue this month?</li>
+        <li class="value-item">What's the main reason customers are churning?</li>
+        <li class="value-item">What's the most requested feature we don't have?</li>
+        <li class="value-item">What's the most common support problem?</li>
+        <li class="value-item">Which accounts are at risk right now?</li>
+        <li class="value-item">What are my biggest open deals this month?</li>
+      </ul>
+    </div>
+    <div class="value-card exec">
+      <div class="value-card-label">Give orders</div>
+      <ul class="value-items">
+        <li class="value-item">Follow up with users who haven't made a 2nd query after 7 days</li>
+        <li class="value-item">Send a thank-you email to customers with 100+ queries and 6+ months with us</li>
+        <li class="value-item">Email accounts above $500/mo introducing a dedicated account manager</li>
+        <li class="value-item">Generate a weekly report of at-risk accounts with suggested next actions</li>
+        <li class="value-item">Draft a win-back sequence for customers who churned in the last 30 days</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="voice-callout">
+    <strong>// voice tip — use your brain hands-free</strong>
+    Talk to your company brain without typing. Use <span class="voice-tool">handy.computer</span> or <span class="voice-tool">WhisperFlow</span> to dictate questions and commands to Claude Code by voice — ask about revenue while commuting, give follow-up orders between meetings.
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>Getting Started</h2>
+
+  <div class="activate-box">
+    <div class="activate-human">
+      <div class="activate-label">// for you — human</div>
+      <p>Place this file in your project root. Open Claude Code and say:</p>
+      <div class="trigger-phrase">"Help me implement the Claude Code OS for my company."<span class="cursor"></span></div>
+      <p class="activate-note">The agent reads this file, understands the structure and guides you through the entire setup in plain language.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       BOOTSTRAP PROTOCOL — INSTRUCTIONS FOR THE AGENT
+       If you are an AI agent reading this file:
+       follow the protocol below to set up the Claude Code OS.
+       ══════════════════════════════════════════════ -->
+  <h2>Setup Protocol — For the Agent</h2>
+  <p>If you are an agent reading this after the activation command: execute the flow below in order. One step at a time.</p>
+
+  <div class="protocol-box">
+    <div class="protocol-label">// bootstrap_protocol · v1.1</div>
+
+    <div class="protocol-step">
+      <div class="protocol-num">01</div>
+      <div class="protocol-content">
+        <strong>Check the context</strong>
+        <p>Verify whether <code>_brain/index.html</code> already exists. If yes: ask restart or expand? If no: fresh setup — continue. Also check whether a <code>_brain/inbox/</code> folder exists with files already dropped by the user — if yes, jump to step 02 before asking any questions.</p>
+      </div>
+    </div>
+
+    <div class="protocol-step">
+      <div class="protocol-num">02</div>
+      <div class="protocol-content">
+        <strong>Knowledge Drop — process raw files first</strong>
+        <p>Create <code>_brain/inbox/</code> and tell the user: <em>"Drop any existing documents here — SOPs, brand guide, price tables, FAQs, contracts, commission sheets, anything. I'll process everything and build the brain from what I find."</em></p>
+        <p>Once files are present, read each one and extract knowledge. Map content to the correct brain files automatically (brand guide → <code>core/brand</code>, price table → <code>core/product</code>, SOP → <code>skills/</code>, etc.). After processing, move all files to <code>_brain/archive/</code> — they served their purpose and shouldn't pollute the daily brain.</p>
+        <p>If no files are dropped after 60 seconds, continue to step 03 — the interview will fill the gaps.</p>
+      </div>
+    </div>
+
+    <div class="protocol-step">
+      <div class="protocol-num">03</div>
+      <div class="protocol-content">
+        <strong>Smart interview — fill gaps and clarify ambiguities</strong>
+        <p>Based on what was found (or not found) in the inbox, ask only the questions that are still unanswered. One at a time. Never a form. Never all at once.</p>
+        <ol class="protocol-questions">
+          <li><span class="q-cat">Identity</span> What is the company name and what does it do in one sentence? (if not found in documents)</li>
+          <li><span class="q-cat">Product</span> What is the main product or service and how does it work for the customer?</li>
+          <li><span class="q-cat">Customers</span> Who are the customers? Profile, segment, average size.</li>
+          <li><span class="q-cat">Teams</span> Which teams or areas exist? (Dev, Sales, Marketing, Support, Ops, Finance, Legal…)</li>
+          <li><span class="q-cat">Tools</span> Which tools are you using today? List what you have — payments, database, CRM, analytics, email, support…</li>
+          <li><span class="q-cat">Auto-update</span> Which of those tools can connect directly? (e.g. Stripe for revenue, Supabase for usage) — I'll set up the crons automatically.</li>
+        </ol>
+        <p>After each tool answer, proactively suggest better integrations if detected: <em>"You mentioned exporting CSVs from your database — I can connect directly to Supabase and update the metrics automatically. Want me to set that up?"</em></p>
+      </div>
+    </div>
+
+    <div class="protocol-step">
+      <div class="protocol-num">04</div>
+      <div class="protocol-content">
+        <strong>Proactive gap questions</strong>
+        <p>Based on everything collected so far — documents + interview — identify what's still missing or ambiguous and ask targeted follow-up questions before building anything. Examples:</p>
+        <ol class="protocol-questions">
+          <li><span class="q-cat">Clarify</span> "Your brand guide mentions a primary color but no hex code — what's the exact value?"</li>
+          <li><span class="q-cat">Clarify</span> "Your price table has 3 plans but no rate limits per plan — what are they?"</li>
+          <li><span class="q-cat">Clarify</span> "Your SOP mentions a CRM tool but doesn't name it — which one?"</li>
+          <li><span class="q-cat">Suggest</span> "I noticed you don't have a churn tracking process — want me to create a skill for that?"</li>
+          <li><span class="q-cat">Suggest</span> "You mentioned daily CSV exports — connecting directly to [tool] would be faster. Should I set it up?"</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="protocol-step">
+      <div class="protocol-num">05</div>
+      <div class="protocol-content">
+        <strong>Adapt the structure and show the plan</strong>
+        <p>Based on all collected information, decide which folders and files to create. Remove what doesn't apply (no sales team = no <code>sales/</code>). Add what's needed (<code>legal/</code>, <code>hr/</code>, <code>finance/</code>). Show the plan to the user in a clear tree and wait for approval before creating anything.</p>
+      </div>
+    </div>
+
+    <div class="protocol-step">
+      <div class="protocol-num">06</div>
+      <div class="protocol-content">
+        <strong>Build the brain + skills</strong>
+        <p>Create all brain files with real content from the collected knowledge — no blank placeholders. Use the timestamp header pattern from this document. Also create initial skill files in <code>_brain/skills/</code> for any recurring processes identified during the interview or in the inbox documents.</p>
+      </div>
+    </div>
+
+    <div class="protocol-step">
+      <div class="protocol-num">07</div>
+      <div class="protocol-content">
+        <strong>Update CLAUDE.md and set up crons</strong>
+        <p>Add the full brain + skills protocol to the root <code>CLAUDE.md</code> (create it if missing). Then set up all approved cron jobs — one command per integration. Confirm each cron is running before moving on.</p>
+      </div>
+    </div>
+
+    <div class="protocol-step">
+      <div class="protocol-num">08</div>
+      <div class="protocol-content">
+        <strong>Propose dashboard</strong>
+        <p>Based on the metrics and tools connected, propose a <code>_brain/dashboard.html</code> that shows the company's north star metrics at a glance. Auto-refreshes in the browser. Updated by the same cron jobs. Ask: "Want me to build the dashboard now?"</p>
+      </div>
+    </div>
+
+    <div class="protocol-step">
+      <div class="protocol-num">09</div>
+      <div class="protocol-content">
+        <strong>Validate and deliver</strong>
+        <p>Show a summary of everything created. Ask two test questions — one about product or pricing, one about a customer or metric. The agent must answer from the brain files, never from memory. If it guesses, the brain is incomplete — fix before closing setup.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>Philosophy</h2>
+
+  <table>
+    <thead><tr><th>Principle</th><th>What it means in practice</th></tr></thead>
+    <tbody>
+      <tr><td>index-first</td><td>The agent always reads <code>index.html</code> before any action. The index maps where everything lives.</td></tr>
+      <tr><td>on-demand loading</td><td>Only the relevant sub-file is read per task. Reduces token usage and eliminates hallucination from unnecessary context.</td></tr>
+      <tr><td>living brain</td><td>Operations files are automatically updated by cron jobs connected to Stripe, Supabase, and other sources.</td></tr>
+      <tr><td>human visibility</td><td>Every file has a header with timestamp ("3h ago") and a countdown to the next update. Stale data is immediately visible.</td></tr>
+      <tr><td>embedded prompt</td><td>Each file carries its own update prompt. Anyone — human or agent — knows what to do without reading external docs.</td></tr>
+      <tr><td>skills layer</td><td>Recurring instructions are saved to <code>_brain/skills/</code> as operational playbooks. The agent updates them automatically when the user corrects or refines its behavior.</td></tr>
+      <tr><td>memory ≠ skills</td><td>Memory stores facts about the company and user. Skills store <em>how to operate</em> — rules, tone, filters, playbooks. Different purpose, different files.</td></tr>
+      <tr><td>knowledge drop</td><td>Raw documents (SOPs, brand kits, price tables, contracts) go into <code>_brain/inbox/</code> — during setup or anytime. The agent checks the inbox at the start of every session, processes any new files, updates the relevant brain files, and archives the originals to <code>_brain/archive/YYYY-MM-DD/</code>.</td></tr>
+      <tr><td>proactive gaps</td><td>After reading inbox files, the agent identifies what's missing or ambiguous and asks targeted follow-up questions — not a generic form, but specific clarifications based on what it actually found.</td></tr>
+      <tr><td>one file</td><td>The entire framework is a single self-contained HTML file. Drop it in any project, say the trigger phrase, and the agent builds the full brain from scratch.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>Folder Structure</h2>
+
+  <div class="tree"><span class="d">_brain/</span>
+├── <span class="f">index.html</span>            <span class="c">← master map — read first on every session</span>
+├── <span class="f">FRAMEWORK.html</span>        <span class="c">← this file — system meta-documentation</span>
+│
+├── <span class="d">core/</span>                 <span class="c">← company foundation — rarely changes</span>
+│   ├── <span class="f">product.html</span>      <span class="c">← API, pricing, rate limits, endpoints, MCP</span>
+│   ├── <span class="f">brand.html</span>        <span class="c">← voice, tone, naming rules, differentiators</span>
+│   └── <span class="f">icp.html</span>          <span class="c">← personas, use cases, objections, pain points</span>
+│
+├── <span class="d">sales/</span>                <span class="c">← commercial knowledge</span>
+│   ├── <span class="f">overview.html</span>     <span class="c">← business model, plans, upgrade triggers</span>
+│   ├── <span class="f">pipeline.html</span>     <span class="c">← active deals (updated frequently)</span>
+│   └── <span class="f">playbook.html</span>     <span class="c">← scripts, objection handling, how to close</span>
+│
+├── <span class="d">marketing/</span>
+│   ├── <span class="f">campaigns.html</span>    <span class="c">← active campaigns, status, channels, ROI</span>
+│   └── <span class="f">content.html</span>      <span class="c">← SEO blog, clusters, content strategy</span>
+│
+├── <span class="d">development/</span>
+│   ├── <span class="f">stack.html</span>        <span class="c">← active projects, tech stack, setup</span>
+│   └── <span class="f">roadmap.html</span>      <span class="c">← features in progress, bugs, backlog</span>
+│
+├── <span class="d">operations/</span>           <span class="c">← operational brain — the level-up layer</span>
+│   ├── <span class="a">metrics.html</span>      <span class="c">← MRR, churn, KPIs ← AUTO-UPDATE via Stripe</span>
+│   ├── <span class="a">customers.html</span>    <span class="c">← active accounts, usage, risk ← AUTO-UPDATE via Supabase</span>
+│   └── <span class="f">support.html</span>      <span class="c">← recurring tickets, internal FAQ, standard replies</span>
+│
+├── <span class="d">inbox/</span>                <span class="c">← drop new documents here anytime — processed at session start</span>
+│   └── <span class="f">[any file]</span>        <span class="c">← PDF, DOCX, MD, CSV, TXT — agent reads, extracts, archives</span>
+│
+├── <span class="d">archive/</span>              <span class="c">← processed inbox files, organized by date</span>
+│   └── <span class="f">YYYY-MM-DD/</span>       <span class="c">← original files preserved for reference</span>
+│
+├── <span class="d">skills/</span>               <span class="c">← operational playbooks — auto-updated from instructions</span>
+│   ├── <span class="a">outreach.md</span>       <span class="c">← email rules, tone, segmentation, fraud filter</span>
+│   ├── <span class="a">fraud-detection.md</span><span class="c">← criteria for identifying fake/abusive signups</span>
+│   └── <span class="f">[area].md</span>         <span class="c">← any recurring process gets its own skill file</span>
+│
+└── <span class="d">logs/</span>
+    └── <span class="a">updates.html</span>      <span class="c">← log of every change made to the brain</span></div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>File Map</h2>
+
+  <table>
+    <thead>
+      <tr><th>File</th><th>Area</th><th>Responsible for</th><th>Frequency</th><th>Update</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>index.html</code></td>
+        <td>—</td>
+        <td>Navigation map — the agent reads this first</td>
+        <td>When structure changes</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>core/product.html</code></td>
+        <td><span class="tag core">Core</span></td>
+        <td>API, endpoint, pricing, rate limits, MCP, code examples</td>
+        <td>Rarely</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>core/brand.html</code></td>
+        <td><span class="tag core">Core</span></td>
+        <td>Voice, tone, naming rules, words to use/avoid, differentiators</td>
+        <td>Rarely</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>core/icp.html</code></td>
+        <td><span class="tag core">Core</span></td>
+        <td>Personas, use cases, pain points, objections, switching triggers</td>
+        <td>Rarely</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>sales/overview.html</code></td>
+        <td><span class="tag sales">Sales</span></td>
+        <td>Business model, plans, conversion goals, channels</td>
+        <td>Monthly</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>sales/pipeline.html</code></td>
+        <td><span class="tag sales">Sales</span></td>
+        <td>Active deals, stage, next step, value</td>
+        <td>Daily</td>
+        <td><span class="tag man-tag">Manual / CRM</span></td>
+      </tr>
+      <tr>
+        <td><code>sales/playbook.html</code></td>
+        <td><span class="tag sales">Sales</span></td>
+        <td>Outreach scripts, objection responses, how to close</td>
+        <td>Monthly</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>marketing/campaigns.html</code></td>
+        <td><span class="tag mkt">Marketing</span></td>
+        <td>Active campaigns, status, budget, metrics by channel</td>
+        <td>Weekly</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>marketing/content.html</code></td>
+        <td><span class="tag mkt">Marketing</span></td>
+        <td>SEO blog status, active clusters, upcoming articles, strategy</td>
+        <td>Weekly</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>development/stack.html</code></td>
+        <td><span class="tag dev">Dev</span></td>
+        <td>Active projects, tech stack, setup, development rules</td>
+        <td>Monthly</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>development/roadmap.html</code></td>
+        <td><span class="tag dev">Dev</span></td>
+        <td>Features in progress, priority bugs, backlog, technical decisions</td>
+        <td>Weekly</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>operations/metrics.html</code></td>
+        <td><span class="tag ops">Ops</span></td>
+        <td>MRR, ARR, churn, new customers, revenue, uptime, latency</td>
+        <td>Daily</td>
+        <td><span class="tag auto-tag">Auto — Stripe + API</span></td>
+      </tr>
+      <tr>
+        <td><code>operations/customers.html</code></td>
+        <td><span class="tag ops">Ops</span></td>
+        <td>Active accounts, credit usage, at-risk accounts, NPS, feedback</td>
+        <td>Daily</td>
+        <td><span class="tag auto-tag">Auto — Supabase</span></td>
+      </tr>
+      <tr>
+        <td><code>operations/support.html</code></td>
+        <td><span class="tag ops">Ops</span></td>
+        <td>Recurring tickets, internal FAQ, standard replies, SLA</td>
+        <td>Weekly</td>
+        <td><span class="tag man-tag">Manual</span></td>
+      </tr>
+      <tr>
+        <td><code>logs/updates.html</code></td>
+        <td>—</td>
+        <td>Log of every change made to the brain — date, file, what changed</td>
+        <td>On every update</td>
+        <td><span class="tag auto-tag">Auto</span></td>
+      </tr>
+      <tr>
+        <td><code>skills/outreach.md</code></td>
+        <td><span class="tag ops">Skills</span></td>
+        <td>Email rules, tone, segmentation logic, fraud filter for daily outreach</td>
+        <td>When user gives instruction</td>
+        <td><span class="tag auto-tag">Auto — from instruction</span></td>
+      </tr>
+      <tr>
+        <td><code>skills/fraud-detection.md</code></td>
+        <td><span class="tag ops">Skills</span></td>
+        <td>Criteria to classify signups as legitimate, suspicious, or fraudulent</td>
+        <td>When user gives instruction</td>
+        <td><span class="tag auto-tag">Auto — from instruction</span></td>
+      </tr>
+      <tr>
+        <td><code>skills/[area].md</code></td>
+        <td><span class="tag ops">Skills</span></td>
+        <td>Any recurring process gets its own skill file — created on demand</td>
+        <td>When user gives instruction</td>
+        <td><span class="tag auto-tag">Auto — from instruction</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>Where Each Piece of Information Lives</h2>
+
+  <table>
+    <thead><tr><th>Information</th><th>Destination file</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Customer feedback about the product</td><td><code>operations/customers.html</code></td><td>When it becomes a priority, mirror in <code>development/roadmap.html</code></td></tr>
+      <tr><td>Bug reported by a user</td><td><code>operations/support.html</code></td><td>When prioritized, move to <code>development/roadmap.html</code></td></tr>
+      <tr><td>MRR, churn, new customers</td><td><code>operations/metrics.html</code></td><td>Auto-updated via Stripe</td></tr>
+      <tr><td>Deal in negotiation</td><td><code>sales/pipeline.html</code></td><td>Current state, next step, value</td></tr>
+      <tr><td>Feature request from a customer</td><td><code>development/roadmap.html</code></td><td>Include who requested it and why</td></tr>
+      <tr><td>New campaign launched</td><td><code>marketing/campaigns.html</code></td><td>With budget, channel, and success KPI</td></tr>
+      <tr><td>Pricing or plan change</td><td><code>core/product.html</code></td><td>Canonical source for pricing</td></tr>
+      <tr><td>Important technical decision</td><td><code>development/roadmap.html</code></td><td>Include the reasoning behind it</td></tr>
+      <tr><td>Account at churn risk</td><td><code>operations/customers.html</code></td><td>Flag as "at risk" with reason</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>AI Protocol — CLAUDE.md</h2>
+  <p>Add this block to the root <code>CLAUDE.md</code> of your project. This ensures the agent reads the index before any action.</p>
+
+  <pre><span class="c">## The Claude Code OS — Mandatory Protocol</span>
+
+<span class="k">Before any task, follow this protocol:</span>
+
+<span class="v">1. Read `_brain/index.html` — it is the map of all company knowledge</span>
+<span class="v">2. Identify which sub-files are relevant to the current task</span>
+<span class="v">3. Read ONLY those files — do not load unnecessary context</span>
+<span class="v">4. For operational tasks (outreach, content, analysis), also load the relevant `_brain/skills/` file</span>
+<span class="v">5. If you generate new relevant information, update the corresponding file</span>
+<span class="v">6. Log every change in `_brain/logs/updates.html`</span>
+
+<span class="k">Skills auto-update rule:</span>
+<span class="v">When the user corrects your approach or gives a recurring instruction ("always do X", "never do Y",</span>
+<span class="v">"from now on..."), immediately update the relevant `_brain/skills/[area].md` file.</span>
+<span class="v">If no skill file exists for that area, create one.</span>
+<span class="v">Add a timestamp and note what changed and why.</span>
+
+<span class="k">Never:</span> guess information that exists in the brain files.
+<span class="k">Always:</span> consult the brain before answering about product, pricing, customers or roadmap.
+<span class="k">Always:</span> consult `_brain/skills/` before any recurring operational task.
+<span class="k">Rule:</span> information not in the brain is unreliable — ask the user to update it.</pre>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>Header Pattern — Timestamps</h2>
+  <p>Every brain file uses this header. The timestamp is static (written to the file on save). JavaScript calculates "X ago" and the countdown dynamically — no backend needed.</p>
+
+  <pre><span class="c">&lt;!-- ─── HEADER STAMP — paste at the top of every brain file ─── --&gt;</span>
+&lt;header class="brain-header"&gt;
+  &lt;div class="terminal-chrome"&gt;
+    &lt;div class="terminal-dots"&gt;
+      &lt;span class="dot dot-red"&gt;&lt;/span&gt;
+      &lt;span class="dot dot-yellow"&gt;&lt;/span&gt;
+      &lt;span class="dot dot-green"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;div class="file-id"&gt;<span class="s">claude-code-os · [area]</span>&lt;/div&gt;
+      &lt;div class="file-title"&gt;<span class="s">filename.html</span>&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="stamps"&gt;
+    &lt;div class="stamp" id="stamp-last"&gt;
+      &lt;span class="label"&gt;Last updated&lt;/span&gt;
+      &lt;span class="abs" id="last-abs"&gt;—&lt;/span&gt;
+      &lt;span class="rel" id="last-rel"&gt;—&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="stamp" id="stamp-next"&gt;
+      &lt;span class="label"&gt;Next update&lt;/span&gt;
+      &lt;span class="abs" id="next-abs"&gt;—&lt;/span&gt;
+      &lt;span class="rel" id="next-rel"&gt;—&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;script&gt;
+<span class="c">// ⚠️  Only change these two lines when saving an update</span>
+const <span class="k">LAST_UPDATED</span> = <span class="v">'2026-05-29T20:00:00-03:00'</span>;  <span class="c">// ISO 8601</span>
+const <span class="k">NEXT_UPDATE</span>  = <span class="v">'2026-05-30T08:00:00-03:00'</span>;  <span class="c">// next cron or manual date</span>
+
+function timeAgo(d) {
+  const s = Math.floor((Date.now() - d) / 1000);
+  if (s &lt; 60)    return s + 's ago';
+  if (s &lt; 3600)  return Math.floor(s / 60) + 'min ago';
+  if (s &lt; 86400) return Math.floor(s / 3600) + 'h ago';
+  return Math.floor(s / 86400) + 'd ago';
+}
+function countdown(d) {
+  const diff = d - Date.now();
+  if (diff &lt;= 0) return 'pending';
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  return 'in ' + (h ? h + 'h ' : '') + m + 'min';
+}
+function fmt(d) {
+  return d.toLocaleString('en-GB', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+}
+function render() {
+  const last = new Date(LAST_UPDATED), next = new Date(NEXT_UPDATE);
+  document.getElementById('last-abs').textContent = fmt(last);
+  document.getElementById('last-rel').textContent = timeAgo(last);
+  document.getElementById('next-abs').textContent = fmt(next);
+  document.getElementById('next-rel').textContent = countdown(next);
+  document.getElementById('stamp-last').className =
+    'stamp ' + (Date.now() - last &lt; 86400000 ? 'fresh' : 'stale');
+}
+render();
+setInterval(render, 30000); <span class="c">// refresh every 30s</span>
+&lt;/script&gt;</pre>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>Skills Layer — Operational Playbooks</h2>
+
+  <p>Skills are the layer between knowledge (brain) and action (Claude Code). They store <em>how to operate</em> — tone, rules, filters, sequences — for every recurring task. Unlike the brain files (which store facts), skills store instructions that evolve as the user corrects or refines the agent's behavior.</p>
+
+  <div class="callout tip">
+    <strong>// auto-update trigger</strong>
+    <em>Any time the user says "always do X", "from now on...", "never do Y", or corrects a recurring pattern — the agent immediately writes or updates the relevant skill file. No manual step required.</em>
+  </div>
+
+  <table>
+    <thead><tr><th>Skill file</th><th>What it controls</th><th>Created when</th></tr></thead>
+    <tbody>
+      <tr><td><code>skills/outreach.md</code></td><td>Email tone, sender persona, segmentation, fraud filter, question format</td><td>First outreach task</td></tr>
+      <tr><td><code>skills/fraud-detection.md</code></td><td>Criteria to classify signups as legitimate, suspicious, or fake</td><td>First signup analysis</td></tr>
+      <tr><td><code>skills/content.md</code></td><td>Blog and copy rules — format, length, SEO, words to avoid</td><td>First content task</td></tr>
+      <tr><td><code>skills/data.md</code></td><td>How to query, interpret, and report metrics and user data</td><td>First data analysis task</td></tr>
+      <tr><td><code>skills/[area].md</code></td><td>Any recurring process — created on demand from user instructions</td><td>When pattern repeats</td></tr>
+    </tbody>
+  </table>
+
+  <p>Skill files use a simple markdown format — no special tooling required. The agent reads the relevant skill before any operational task, applies the rules, and updates the file when the user gives new instructions.</p>
+
+  <pre><span class="c"># Skill: [Name]
+# Atualizado: YYYY-MM-DD · [what changed]</span>
+
+<span class="k">## Regras</span>
+<span class="v">- rule 1</span>
+<span class="v">- rule 2</span>
+
+<span class="k">## Anti-patterns</span>
+<span class="v">- never do this</span>
+
+<span class="k">## Exemplos validados</span>
+<span class="v">- [example approved by user, with date]</span></pre>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>Auto-Update — Living Brain</h2>
+
+  <table>
+    <thead><tr><th>Source</th><th>What it pulls</th><th>Destination file</th><th>Suggested frequency</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Stripe</td>
+        <td>MRR, ARR, new customers, churned, revenue, overage</td>
+        <td><code>operations/metrics.html</code></td>
+        <td>Daily — 8am</td>
+      </tr>
+      <tr>
+        <td>Supabase</td>
+        <td>Active users, API usage, quotas, signups, plans</td>
+        <td><code>operations/customers.html</code></td>
+        <td>Daily — 8am</td>
+      </tr>
+      <tr>
+        <td>Own API</td>
+        <td>Uptime, avg latency, 5xx errors, request volume</td>
+        <td><code>operations/metrics.html</code></td>
+        <td>Every 6h</td>
+      </tr>
+      <tr>
+        <td>Gmail / WhatsApp</td>
+        <td>Open tickets, support patterns, recurring feedback</td>
+        <td><code>operations/support.html</code></td>
+        <td>Weekly — Monday 8am</td>
+      </tr>
+      <tr>
+        <td>CRM / Pipeline</td>
+        <td>Open deals, stage, next step</td>
+        <td><code>sales/pipeline.html</code></td>
+        <td>Daily or manual</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout info">
+    <strong>// how to create a cron in Claude Code</strong>
+    Use <code>/schedule</code> or <code>CronCreate</code>. Example: <em>"Every day at 8am, connect to Stripe, pull MRR and customers from the last 30 days, update <code>_brain/operations/metrics.html</code> with the new data, set LAST_UPDATED to now, NEXT_UPDATE to tomorrow at 8am, and log the change in <code>_brain/logs/updates.html</code>."</em>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>Embedded Update Prompt</h2>
+  <p>Every brain file ends with this block. Anyone — human or agent — knows how to update it without consulting external documentation.</p>
+
+  <div class="update-box">
+    <span class="label">// how to update this file</span>
+    <pre>"Update `_brain/[path]/[file].html` with the following changes:
+[describe the change].
+
+After updating:
+1. Change LAST_UPDATED in the script to the current ISO timestamp
+2. Adjust NEXT_UPDATE to match the file's update frequency
+3. Log the change in `_brain/logs/updates.html` with: date, file, and what changed"</pre>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <h2>How to Replicate for Another Company</h2>
+
+  <ol class="steps">
+    <li><span><strong>Drop <code>FRAMEWORK.html</code> in the project root.</strong> That's the only file needed to start — no folder structure, no CLAUDE.md, nothing else.</span></li>
+    <li><span><strong>Say the trigger phrase</strong> — <em>"Help me implement the Claude Code OS for my company."</em> The agent reads this file and runs the Bootstrap Protocol automatically.</span></li>
+    <li><span><strong>Drop raw documents into <code>_brain/inbox/</code></strong> when prompted — SOPs, brand guide, price tables, FAQs, contracts, anything. The agent reads and organizes everything.</span></li>
+    <li><span><strong>Answer the smart interview</strong> — one question at a time, in plain language. The agent only asks what it couldn't find in the documents. It also suggests better tool integrations proactively.</span></li>
+    <li><span><strong>Approve the structure plan and cron connections.</strong> The agent proposes, you approve. One word is enough for each decision.</span></li>
+    <li><span><strong>Done.</strong> Brain is live, crons are running, dashboard is built. From now on, talk naturally — give orders, ask questions, correct approaches. The agent manages everything.</span></li>
+  </ol>
+
+  <div class="update-box">
+    <span class="label">// how to update this file</span>
+    <pre>"Update `_brain/FRAMEWORK.html` with the following changes:
+[describe what changed in the architecture or system philosophy].
+
+After updating:
+1. Change LAST_UPDATED in the script to the current ISO timestamp
+2. Adjust NEXT_UPDATE (this file is manual — set to the next planned revision)
+3. Log the change in `_brain/logs/updates.html`"</pre>
+  </div>
+
+  <footer>
+    The Claude Code OS · Framework v1.1 · May 2026 · one file, drop it anywhere, the agent does the rest
+  </footer>
+
+</div>
+
+<!-- ════════════════════════════════════════════════
+     TIMESTAMP SCRIPT — only change LAST_UPDATED and NEXT_UPDATE
+     ════════════════════════════════════════════════ -->
+<script>
+const LAST_UPDATED = '2026-05-29T20:00:00-03:00';
+const NEXT_UPDATE  = '2026-05-30T08:00:00-03:00';
+
+function timeAgo(d) {
+  const s = Math.floor((Date.now() - d) / 1000);
+  if (s < 60)    return s + 's ago';
+  if (s < 3600)  return Math.floor(s / 60) + 'min ago';
+  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  return Math.floor(s / 86400) + 'd ago';
+}
+function countdown(d) {
+  const diff = d - Date.now();
+  if (diff <= 0) return 'pending';
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  return 'in ' + (h ? h + 'h ' : '') + m + 'min';
+}
+function fmt(d) {
+  return d.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+}
+function render() {
+  const last = new Date(LAST_UPDATED);
+  const next = new Date(NEXT_UPDATE);
+  document.getElementById('last-abs').textContent = fmt(last);
+  document.getElementById('last-rel').textContent = timeAgo(last);
+  document.getElementById('next-abs').textContent = fmt(next);
+  document.getElementById('next-rel').textContent = countdown(next);
+  document.getElementById('stamp-last').className =
+    'stamp ' + (Date.now() - last < 86400000 ? 'fresh' : 'stale');
+}
+render();
+setInterval(render, 30000);
+</script>
+
+</body>
+</html>
