@@ -4,11 +4,11 @@
     {
       "id": "proactive-check",
       "name": "Proactive Opportunity Check",
-      "description": "Runs every 6 hours — reads brain state, surfaces opportunities and risks, writes suggestions to inbox",
-      "prompt": "Run a proactive check: (1) Read _brain/index.html and any brain sections updated recently. (2) Look for: metrics anomalies or trends worth acting on, customers at risk or near quota, stalled or blocked projects, tools referenced in the project but not connected via MCP, recurring patterns that should become a skill. (3) Write a brief suggestions file to _brain/inbox/proactive-{YYYY-MM-DD-HH}.md — top 2-3 opportunities or actions, any risks. Keep it short: 3-5 bullet points max. (4) Auto-commit: git add _brain/ && git commit -m 'brain: proactive check'.",
+      "description": "Runs every 3 days when project is idle — cross-dimensional scan, always suggests and asks before acting",
+      "prompt": "Run a proactive opportunity check. (1) Read _brain/index.html, all files in _brain/core/, and _brain/operations/ to understand current business state. (2) Look for opportunities across ALL dimensions — not just metrics: customer contact channels available (phone, WhatsApp, email, LinkedIn) that aren't being used for follow-up; customer segments being under-served or not contacted recently; tools referenced in code or .env that could be better connected or automated; patterns in customer behavior worth acting on; processes done manually that could be scheduled; skill gaps — recurring instructions not yet captured as a permanent skill. (3) For each finding, phrase as a suggestion that asks the owner's opinion — never assume, never act unilaterally. Format: 'I noticed [observation] — would it make sense to [specific action]? What do you think?' (4) Write results to TWO places: _brain/inbox/proactive-YYYY-MM-DD.md (for next session to surface immediately) AND _brain/operations/proactive-latest.md (persistent — always overwrite with latest). (5) Update the Proactive Suggestions section in _brain/dashboard.html: replace the content between <!-- PROACTIVE_START --> and <!-- PROACTIVE_END --> with 3-5 bullet points summarizing your findings. (6) If you noticed a recurring pattern that should be a skill, create or update _brain/skills/[area].md. (7) Auto-commit: git add _brain/ && git commit -m 'brain: proactive check YYYY-MM-DD'.",
       "schedule": {
         "type": "interval",
-        "hours": 6
+        "hours": 72
       },
       "last_run": null,
       "next_run": null,

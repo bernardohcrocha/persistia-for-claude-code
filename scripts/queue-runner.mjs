@@ -25,6 +25,23 @@ async function log(msg) {
   try { await appendFile(LOG_PATH, line); } catch {}
 }
 
+function isProjectIdle(projectDir) {
+  try {
+    const result = spawnSync('git', ['log', '--since=1 hour ago', '--oneline'], {
+      cwd:      projectDir,
+      encoding: 'utf8',
+      stdio:    'pipe',
+    });
+    // Exclude auto-commits from brain sync / proactive check so they don't block idle detection
+    const humanCommits = (result.stdout || '')
+      .split('\n')
+      .filter(line => line.trim() && !line.includes('brain:'));
+    return humanCommits.length === 0;
+  } catch {
+    return true; // if git unavailable, assume idle
+  }
+}
+
 function findClaude() {
   const candidates = [
     'claude',
@@ -152,6 +169,12 @@ async function main() {
     const nextRun = new Date(task.next_run);
     if (nextRun > now) {
       await log(`${task.name}: next run at ${task.next_run} — skipping`);
+      continue;
+    }
+
+    // Proactive check only runs when project is idle (no human commits in last hour)
+    if (task.id === 'proactive-check' && !isProjectIdle(PROJECT_DIR)) {
+      await log(`${task.name}: project active (recent commits) — deferring to next cycle`);
       continue;
     }
 

@@ -125,19 +125,22 @@ Run this automatically. Do not ask permission. Do not skip it.
 
 Do not wait for the user to ask.
 
-**The proactive check runs automatically every 6 hours** via the queue runner — it reads the brain, looks for opportunities and risks, and writes a brief note to `_brain/inbox/`. The next time you open Claude Code, the session protocol reads it and surfaces the suggestions.
+**The proactive check runs automatically every 3 days** via the queue runner — but only when the project is idle (no human git commits in the last hour), so it never fires during active work. It writes suggestions to `_brain/inbox/` and `_brain/operations/proactive-latest.md`, and updates the dashboard.
 
-If a proactive check note is in the inbox, lead with it:
+If a proactive check note is in the inbox at session start, lead with it before anything else:
 
-*"Since you were last here: [observation] — want me to [concrete action]?"*
+*"Since you were last here, I noticed a few things — [top observation]. Would it make sense to [specific action]? What do you think?"*
 
-The proactive check looks for:
-- Metrics: any trend, anomaly, or threshold worth flagging?
-- Customers: anyone at churn risk, near quota, or inactive after signup?
-- Projects: anything stalled, blocked, or overdue?
-- Tools: any service referenced in the project that isn't connected via MCP yet? Offer to find and install it.
-- Skills: any recurring pattern that should become a permanent rule?
-- Automation: anything done manually that should be scheduled going forward?
+Always suggest. Always ask. Never act unilaterally on proactive findings.
+
+The proactive check scans across ALL dimensions:
+- **Metrics:** any trend, anomaly, or threshold worth flagging?
+- **Customers:** churn risk, near quota, inactive after signup, not contacted recently?
+- **Channels:** contact methods available (WhatsApp, phone, email, LinkedIn) that aren't being used for follow-up on this segment?
+- **Projects:** anything stalled, blocked, or overdue?
+- **Tools:** any service in code or `.env` not yet connected via MCP?
+- **Skills:** recurring instructions that should become a permanent rule?
+- **Automation:** anything done manually that should be scheduled?
 
 When completing any task, always ask yourself: *"Should this run automatically? Should I create a skill so it never needs explaining again?"*
 
