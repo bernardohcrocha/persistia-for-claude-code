@@ -6,154 +6,89 @@
 ╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗
  ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
 
- ██████╗ ██████╗ ██████╗ ███████╗     ██████╗ ███████╗
-██╔════╝██╔═══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝
-██║     ██║   ██║██║  ██║█████╗      ██║   ██║███████╗
-██║     ██║   ██║██║  ██║██╔══╝      ██║   ██║╚════██║
-╚██████╗╚██████╔╝██████╔╝███████╗    ╚██████╔╝███████║
- ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝     ╚═════╝ ╚══════╝
+ ██████╗  ██████╗ ██████╗ ███████╗     ██████╗ ███████╗
+██╔════╝ ██╔═══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝
+██║      ██║   ██║██║  ██║█████╗      ██║   ██║███████╗
+██║      ██║   ██║██║  ██║██╔══╝      ██║   ██║╚════██║
+╚██████╗ ╚██████╔╝██████╔╝███████╗    ╚██████╔╝███████║
+ ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝     ╚═════╝ ╚══════╝
 ```
 
-**Your company's operating layer for Claude Code.**  
-Local files. No server. No lock-in. Works with the tools you already use.
-
-```
-"Help me implement the Claude Code OS for my company."
-```
-
-Say that in Claude Code after dropping `FRAMEWORK.html` in your project. The agent builds everything else.
+### The Operational and Knowledge Co-Pilot for Solo Founders.
+**Self-improving · Uses everything you already have · No server · No lock-in**
 
 ---
 
-## Why this exists
+You already have a codebase, `.env` files with your API keys, scattered docs, brand assets, price tables. You just haven't had time to connect all of it into something useful.
 
-I spent time testing Hermes Agent, Agent Zero, and similar frameworks looking for something that would let me run an intelligent agent on top of my own company's knowledge and workflows.
+**Claude Code OS reads everything you already have** — documents, code, configs, entire project folders — understands your business from the ground up, and turns Claude Code into your dedicated operational co-pilot. No reconnecting tools. No re-explaining context. No new infrastructure to maintain.
 
-They're all impressive — but they solve a different problem. They're agent infrastructure. You still need to connect your data, define your processes, and figure out how to make the agent useful for your specific business.
-
-What I actually needed was simpler:
-
-- An agent that **knows my company** without me repeating context every session
-- That **acts on my instructions** — send emails, query databases, generate reports — not just answers questions
-- That **updates itself** as I give it new instructions or drop new documents
-- That runs inside **Claude Code**, which I already use daily
-- With **zero new infrastructure** — no server, no SaaS, no Docker
-
-Claude Code OS is that layer. It's not an agent framework. It's the operating layer that makes Claude Code act like a co-pilot that actually knows your business.
+Pair it with a speech-to-text tool like [handy.computer](https://handy.computer) or WhisperFlow and you have your own dedicated virtual employee — assign tasks, ask anything, have it running your company based on everything you've already built.
 
 ---
 
-## What it is
+## What it does
 
-A single HTML file (`FRAMEWORK.html`) that:
-
-1. **Documents the complete system** — folder structure, file formats, update protocols, AI instructions
-2. **Bootstraps itself** — when you say the trigger phrase, the agent reads the file and builds your entire company brain from scratch
-3. **Evolves with you** — skills update from your instructions, metrics update from your tools, documents process automatically when dropped in `inbox/`
-
-The brain lives as files in your project. HTML for visual files (with timestamps showing freshness), Markdown for skills and knowledge. No database, no API, no account.
-
----
-
-## What it is NOT
-
-| This | Not this |
+| | |
 |---|---|
-| A knowledge layer for Claude Code | A standalone agent framework |
-| File-based, lives in your project | A SaaS product or cloud service |
-| Runs where Claude Code runs | Requires its own server or runtime |
-| Evolves from natural language instructions | Requires config files or code changes |
-| Works with tools you already have | Requires new infrastructure |
+| **Uses everything you already have** | Reads your codebase, docs, and `.env` files. Your Stripe key is already there — no need to reconnect. Your product logic is in the code — no need to re-explain. Minimum effort to get started. |
+| **Self-improving skills** | Every instruction becomes a permanent rule, applied forever — *"always sign emails as Lucas"*, *"flag accounting firms for LGPD"*. One instruction, done. Never repeat yourself. |
+| **Proactive setup** | Reads your entire project, detects your tools, and **suggests use cases for your specific business** — you don't have to figure out what to ask for. |
+| **Process documentation** | No SOPs written yet? It interviews you and **writes the documentation for you** — then keeps it updated automatically as things evolve. |
+| **Live business metrics** | Connects to Stripe, Supabase, or any database already in your project. Revenue, customers, and usage **auto-update daily** — no manual exports, no dashboards to maintain. |
+| **Operational orders** | Send emails, query databases, generate reports, schedule recurring tasks — all in **plain language**, no code required. |
+
+---
+
+## What you can do
+
+**Ask anything about your business**
+> *"How's my MRR this month vs last?"*  
+> *"Which accounts are at risk right now?"*  
+> *"Who signed up today — any look like fraud?"*  
+> *"What are customers requesting most?"*
+
+**Give operational orders**
+> *"Follow up with users who haven't made a second query in 7 days"*  
+> *"Send a welcome email to the companies that signed up today"*  
+> *"Every Monday, send me a report of new signups and at-risk accounts"*
+
+**Teach it your way of working**
+> *"From now on, always mention LGPD when writing to accounting firms"*  
+> *"Never group emails by domain — send one per person"*
+
+These become **permanent skills** — applied automatically in every future session, without reminders.
 
 ---
 
 ## Install
 
-**Option 1 — Direct (recommended)**
-
-Open Claude Code in your project and say:
+Open Claude Code in your project and paste:
 
 ```
-Fetch https://raw.githubusercontent.com/bernardohcrocha/claude-code-os/main/FRAMEWORK.html, 
-save it to my project root, and implement it.
+Help me implement Claude Code OS: https://github.com/bernardohcrocha/claude-code-os
 ```
 
-Claude Code fetches the file, reads the protocol, and starts the setup interview automatically.
-
-**Option 2 — Manual**
-
-```bash
-curl -O https://raw.githubusercontent.com/bernardohcrocha/claude-code-os/main/FRAMEWORK.html
-```
-
-Then open Claude Code and say:
-
-```
-Help me implement the Claude Code OS for my company.
-```
+The agent fetches the framework and **starts the setup interview automatically** — reading what you already have, asking only what's missing.
 
 ---
 
-## What happens during setup
+## Setup — once, 10–20 minutes
 
-The agent runs a 9-step Bootstrap Protocol:
+- **Point it at what you have** — drop documents, code, configs, brand assets into `_brain/inbox/`, or point it at existing folders. It reads everything, extracts what matters, archives the originals. Large codebases are processed in stages — architecture first, critical modules next, depth on demand.
+- **Zero-friction connections** — your `.env` already has Stripe, Supabase, and other keys configured. It uses those directly, no reconnecting.
+- **Proactive interview** — asks only what it couldn't find in your files. One question at a time, in plain language.
+- **Suggests use cases** — based on what it found in your actual project, not generic templates.
+- **Writes missing documentation** — *"I didn't find any SOPs — want me to document your onboarding process?"*
+- **Builds a live dashboard** — your north star metrics, auto-refreshing in the browser.
 
-1. **Checks context** — fresh setup or expanding existing brain?
-2. **Knowledge Drop** — creates `_brain/inbox/`, asks you to drop any existing documents (SOPs, brand guide, price tables, contracts). Reads everything, organizes it, archives the originals.
-3. **Smart interview** — asks only what it couldn't find in your documents. One question at a time.
-4. **Gap questions** — proactively identifies missing information: *"Your price table doesn't have rate limits per plan — what are they?"*
-5. **Adapts the structure** — proposes which folders to create based on your teams and tools. Shows the plan, waits for approval.
-6. **Builds the brain** — creates all files with real content from what was collected.
-7. **Sets up CLAUDE.md** — wires the protocol so the agent reads the brain automatically in every future session.
-8. **Connects tools** — sets up cron jobs for Stripe, Supabase, or any database to auto-update your metrics daily.
-9. **Builds the dashboard** — a visual HTML dashboard that shows your north star metrics. Auto-refreshes in the browser.
-
-Total time: 10–20 minutes. After that, the brain runs itself.
+After that, **the brain runs itself.**
 
 ---
 
-## What you get
+## For small teams
 
-**Ask anything:**
-- *"How's my MRR this month vs last month?"*
-- *"Which accounts are at risk right now?"*
-- *"What's the most common support issue this week?"*
-- *"What features are customers requesting most?"*
-
-**Give orders:**
-- *"Follow up with users who haven't made a second query after 7 days"*
-- *"Send a welcome email to the 3 companies that signed up today"*
-- *"Generate a weekly report of at-risk accounts with suggested next actions"*
-- *"Every Monday morning, send me a summary of new signups from the past week"*
-
-**Teach it:**
-- *"From now on, when writing outreach emails always sign as Lucas, account manager"*
-- *"Whenever someone from an accounting firm signs up, always mention LGPD compliance"*
-- *"Never group emails by domain — send one per person"*
-
-Instructions like these are automatically saved as skills in `_brain/skills/`. The agent applies them in every future session without you repeating.
-
----
-
-## How it stays updated
-
-```
-Stripe / Supabase / Database
-         ↓ cron (daily)
-  _brain/metrics.html    ← live MRR, customers, usage
-  _brain/dashboard.html  ← visual dashboard, auto-refreshes
-
-New documents → _brain/inbox/
-         ↓ next session (or on demand)
-  Brain files updated
-  inbox/ archived to _brain/archive/YYYY-MM-DD/
-
-Your instructions → skills update immediately
-         ↓
-  _brain/skills/[area].md
-```
-
-Every brain file has a visible timestamp: *"updated 3h ago · next update in 14h"*. Stale data is immediately visible.
+The brain lives as files in your project. Commit `_brain/` to your git repository and every team member works from the same source of truth. Company knowledge, **version-controlled**.
 
 ---
 
@@ -161,50 +96,32 @@ Every brain file has a visible timestamp: *"updated 3h ago · next update in 14h
 
 ```
 _brain/
-├── index.html          ← master map — agent reads this first, every session
-├── dashboard.html      ← live metrics dashboard
-│
-├── core/               ← company foundation (product, brand, ICP)
-├── operations/         ← metrics, customers — auto-updated via cron
-├── sales/              ← pipeline, playbook, overview
-├── marketing/          ← campaigns, content strategy
-├── development/        ← stack, roadmap
-│
-├── skills/             ← operational playbooks — evolve from your instructions
-│   ├── outreach.md
-│   ├── fraud-detection.md
-│   └── [area].md
-│
-├── inbox/              ← drop new documents here anytime
-├── archive/            ← processed inbox files, organized by date
-└── logs/               ← every change logged automatically
+├── index.html        ← agent reads this first, every session
+├── dashboard.html    ← live metrics, auto-refreshes in browser
+├── core/             ← product, brand, ICP
+├── operations/       ← metrics + customers, auto-updated via cron
+├── skills/           ← self-improving rules, evolve from every instruction
+├── inbox/            ← drop any documents or files here anytime
+└── archive/          ← processed files, kept for reference
 ```
 
 ---
 
 ## Philosophy
 
-| Principle | What it means |
+| | |
 |---|---|
-| **Local files** | Everything lives as files in your project — HTML, Markdown, no database. Version control it, move it, copy it, own it completely. |
-| **Index-first** | The agent always reads `index.html` before any action. Never loads everything — only what's needed for the current task. |
-| **Living brain** | Metrics auto-update from your tools. Documents process when dropped in inbox. Skills evolve from your instructions. |
-| **Memory ≠ Skills** | Memory stores facts (what's true). Skills store instructions (how to operate). Different files, different purpose. |
-| **Natural language** | You give orders like you'd give them to a smart employee. The agent manages files, crons, and databases. You don't touch any of it. |
-| **No lock-in** | Everything is files in your project. Move it, copy it, version control it, delete it. Nothing depends on an external service. |
+| **Single source of truth** | All company knowledge in one place — queryable, actionable, always up to date. |
+| **Uses what you have** | Reads your existing project, code, and tools. Minimum effort to get started, minimum effort to keep going. |
+| **Self-improving** | Skills evolve from your instructions. Every correction makes it permanently smarter. No retraining, no config — just talk. |
+| **Proactive, not passive** | Reads your business, suggests actions, documents processes — doesn't wait to be asked. |
+| **Local files** | No server, no database. Everything lives in your project — portable, versionable, fully owned. |
 
 ---
 
-## Voice tip
-
-Use [handy.computer](https://handy.computer) or WhisperFlow to talk to your company brain without typing. Give orders between meetings. Ask about revenue while commuting. The agent operates the same whether you type or dictate.
+> **Tip:** Pair with [handy.computer](https://handy.computer) or WhisperFlow to talk to your company by voice — give orders between meetings, ask about revenue while commuting. Your virtual employee, always available.
 
 ---
 
-## License
-
-MIT — free to use, fork, and adapt for any company.
-
----
-
-*Built out of necessity after testing Hermes Agent, Agent Zero, and others. Needed something that runs local, follows my existing workflows, and doesn't require a separate infrastructure to maintain. This is that thing.*
+*Claude Code is a product of Anthropic. Claude Code OS is an independent open-source project, not affiliated with or endorsed by Anthropic.*  
+MIT License · 2026

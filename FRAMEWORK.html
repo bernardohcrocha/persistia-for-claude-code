@@ -451,9 +451,9 @@
     <div class="protocol-step">
       <div class="protocol-num">02</div>
       <div class="protocol-content">
-        <strong>Knowledge Drop — process raw files first</strong>
-        <p>Create <code>_brain/inbox/</code> and tell the user: <em>"Drop any existing documents here — SOPs, brand guide, price tables, FAQs, contracts, commission sheets, anything. I'll process everything and build the brain from what I find."</em></p>
-        <p>Once files are present, read each one and extract knowledge. Map content to the correct brain files automatically (brand guide → <code>core/brand</code>, price table → <code>core/product</code>, SOP → <code>skills/</code>, etc.). After processing, move all files to <code>_brain/archive/</code> — they served their purpose and shouldn't pollute the daily brain.</p>
+        <strong>Knowledge Drop — process everything you already have</strong>
+        <p>Create <code>_brain/inbox/</code> and tell the user: <em>"Drop anything here — documents, files, code, configs, entire project folders. SOPs, brand guide, price tables, contracts, codebase, .env files, anything. I'll read everything, extract what matters, and build the brain from what you already have. Minimum effort required."</em></p>
+        <p>Once files are present, read each one and extract knowledge. Map content to the correct brain files automatically (brand guide → <code>core/brand</code>, price table → <code>core/product</code>, SOP → <code>skills/</code>, code → <code>development/</code>). For large codebases, process in stages: architecture and entry points first, critical modules next, depth on demand — never try to read everything at once. Check for <code>.env</code> files and existing API configurations — use those connections directly without asking the user to reconnect tools that are already configured. After processing, move all files to <code>_brain/archive/YYYY-MM-DD/</code>.</p>
         <p>If no files are dropped after 60 seconds, continue to step 03 — the interview will fill the gaps.</p>
       </div>
     </div>
