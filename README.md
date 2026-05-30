@@ -6,7 +6,7 @@
 
 # The Operational Copilot for Solo Founders.
 
-Fully local · Done-for-you SOPs · Self-evolving · Auto cloud backup · No lock-in
+Fully local · No extra tools · Done-for-you SOPs · Self-evolving · Auto git backup
 
 [![MIT License](https://img.shields.io/badge/License-MIT-da7756?style=flat-square)](LICENSE)
 [![Built for Claude Code](https://img.shields.io/badge/Built%20for-Claude%20Code-da7756?style=flat-square&logo=anthropic&logoColor=white)](https://claude.ai/code)
@@ -17,7 +17,7 @@ Fully local · Done-for-you SOPs · Self-evolving · Auto cloud backup · No loc
 
 You're running a real company solo. You already have Stripe, Supabase, code, docs, customers — all sitting in your project folder.
 
-**Claude Code OS turns all of that into an operational co-pilot that knows your whole business, remembers how you work, and gets smarter every session.**
+**Claude Code OS turns all of that into an operational co-pilot that knows your whole business, executes tasks on command, and proactively suggests what to do next.**
 
 Fully local. Your API keys stay on your machine. No infrastructure to set up. No remote server. No data leaving your environment. Just open your project, paste one command, and let it ask you what it needs.
 
@@ -54,6 +54,10 @@ Claude reads your codebase, connects to your existing tools, and asks only what 
 - *"Every Monday, compare new signups vs churned accounts from the previous week. Send me a summary with a suggested action for each segment."*
 
 - *"Whenever a Pro account is below 10% of their monthly quota by the 20th, notify me and queue a check-in message for that customer."*
+
+- *"Every Monday at 9am: pull last week's numbers, flag any anomaly, and send me a summary with a suggested action for each segment."*
+
+Set once. Runs automatically on schedule.
 
 **Teach it how you work**
 
