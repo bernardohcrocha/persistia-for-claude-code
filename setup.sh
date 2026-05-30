@@ -66,6 +66,7 @@ mkdir -p \
 echo "  → Downloading templates..."
 
 curl -fsSL "$REPO/templates/_brain/index.html"        -o _brain/index.html
+curl -fsSL "$REPO/templates/_brain/dashboard.html"    -o _brain/dashboard.html
 curl -fsSL "$REPO/templates/_brain/tasks/queue.json"  -o _brain/tasks/queue.json
 
 # .gitkeep for empty dirs
