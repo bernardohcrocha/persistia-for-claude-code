@@ -27,13 +27,13 @@ Pair it with **speech-to-text** to give voice orders as you would to a real **su
 
 ## One command. It builds itself from there.
 
-Run this in your project folder:
+Open Claude Code in your project folder, then run this in the terminal:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/bernardohcrocha/claude-code-os/main/setup.sh | bash
 ```
 
-Then open Claude Code. It scans your entire project, connects to your existing tools, discovers what's missing, and starts the setup interview — one question at a time.
+Claude picks up immediately after setup — scans your entire project, connects to your existing tools, discovers what's missing, and starts the interview. One question at a time.
 
 No forms. No config files. Just a conversation.
 
