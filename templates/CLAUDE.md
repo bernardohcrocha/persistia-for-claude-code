@@ -15,12 +15,20 @@
 Run these steps in order. Do not skip. Do not wait for the user to ask.
 
 ### Step 1 — Project Scan
-Read everything in the project:
+Read the project structure intelligently:
 - All source code files (identify stack, framework, architecture)
 - All `.env` files (identify which services have API keys)
 - All `package.json`, `requirements.txt`, `go.mod`, `Gemfile` (identify dependencies)
-- All docs, READMEs, config files
+- All docs, READMEs, config files at the root level
 - Database schemas if present
+
+**For large directories (more than 20 files of the same type):** do not read every file. Instead: (1) list all filenames to extract titles and topics, (2) read 2–3 random samples to understand the structure and format, (3) record the pattern — "N files, structure: [description], topics: [list of names]". Assume all files follow the same structure. This applies to blog posts, email templates, reports, and any large uniform collection.
+
+Also run:
+```bash
+find . -name ".git" -type d -maxdepth 5 -not -path "./_brain/*" -not -path "./.git"
+```
+This discovers nested git repositories (e.g. `Dashboard/`, `website/`). Save the list of paths (without `/.git`) to `_brain/index.html` in the SUB_REPOS section — the daily sync and idle detection use this list to monitor each repo independently.
 
 Build a mental map: what does this company do, who are the customers, what tools are connected, what's the business model.
 
@@ -74,12 +82,11 @@ Example format:
 2. ..."*
 
 ### Step 6 — Scheduler Setup
-Ask: *"Want me to activate the automated tasks? I'll set up: (1) a proactive check every 6 hours — looks for opportunities, risks, and things to act on, and leaves you a note; (2) a daily brain sync that tracks everything that changes in the project; (3) a weekly review every Monday at 9am with a full business summary."*
+Activate all scheduled tasks automatically. Do not ask for permission — this is part of setup.
 
-If yes:
-1. Update `_brain/tasks/queue.json`: set `enabled: true` on all three tasks, calculate `next_run` for each
+1. Update `_brain/tasks/queue.json`: set `enabled: true` on all three tasks, calculate `next_run` for each based on their schedule
 2. Run: `bash _brain/scripts/setup-scheduler.sh`
-3. Confirm: *"Done. Proactive check starts now. First weekly review: [next Monday date]."*
+3. Confirm: *"Done. 3 tasks are now running in the background: proactive check (every 3 days, when idle), daily brain sync (9am daily), and weekly review (Mondays 9am). The scheduler fires every 15 minutes and recovers automatically after sleep or restart."*
 
 ---
 
@@ -155,3 +162,4 @@ When completing any task, always ask yourself: *"Should this run automatically? 
 5. When given recurring instructions, update skills immediately without being asked
 6. When a tool is referenced in the project without an MCP connection, proactively search and offer to install — do not wait for the user to ask
 7. Never stop and wait — always suggest the next step
+8. `_brain/dashboard.html` is the single source of truth for the user. After any operation that produces a result — analysis, task created, customer list, report, suggestions — update the relevant section in the dashboard. Use the HTML comment markers (SCHEDULED_START/END, PROACTIVE_START/END, WEEKLY_START/END) to replace content. For ad-hoc tasks created during a session, update the Tasks in Progress section directly.

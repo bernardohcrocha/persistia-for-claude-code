@@ -139,9 +139,11 @@
     <!-- Tasks in Progress -->
     <section class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
       <h2 class="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Tasks in Progress</h2>
+      <!-- TASKS_START -->
       <div id="tasks-list" class="space-y-2">
         <div class="text-sm text-gray-400 dark:text-gray-500 italic">No active tasks — give Claude an order to get started.</div>
       </div>
+      <!-- TASKS_END -->
     </section>
 
     <!-- Brain Status -->
@@ -179,6 +181,16 @@
 
   </div>
 
+  <!-- Scheduled Tasks ─────────────────────────────────────────────────── -->
+  <section class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
+    <h2 class="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Scheduled Tasks</h2>
+    <!-- SCHEDULED_START -->
+    <div class="text-sm text-gray-400 dark:text-gray-500 italic">
+      No scheduled tasks yet. Complete setup to activate.
+    </div>
+    <!-- SCHEDULED_END -->
+  </section>
+
   <!-- Proactive Suggestions ────────────────────────────────────────────── -->
   <section class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
     <div class="flex items-center justify-between mb-4">
@@ -190,6 +202,19 @@
       No proactive check has run yet. Activate the scheduler to enable automatic opportunity scanning every 3 days.
     </div>
     <!-- PROACTIVE_END -->
+  </section>
+
+  <!-- Weekly Review ────────────────────────────────────────────────────── -->
+  <section class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">Weekly Review</h2>
+      <span id="weekly-date" class="text-xs text-gray-400 dark:text-gray-600">Not yet run</span>
+    </div>
+    <!-- WEEKLY_START -->
+    <div id="weekly-review" class="space-y-2 text-sm text-gray-400 dark:text-gray-500 italic">
+      No weekly review has run yet. Activates every Monday at 9am.
+    </div>
+    <!-- WEEKLY_END -->
   </section>
 
 </main>

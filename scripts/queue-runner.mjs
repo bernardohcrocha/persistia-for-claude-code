@@ -25,21 +25,36 @@ async function log(msg) {
   try { await appendFile(LOG_PATH, line); } catch {}
 }
 
-function isProjectIdle(projectDir) {
+function findSubRepos(projectDir) {
   try {
-    const result = spawnSync('git', ['log', '--since=1 hour ago', '--oneline'], {
-      cwd:      projectDir,
-      encoding: 'utf8',
-      stdio:    'pipe',
-    });
-    // Exclude auto-commits from brain sync / proactive check so they don't block idle detection
-    const humanCommits = (result.stdout || '')
+    const result = spawnSync(
+      'find', ['.', '-name', '.git', '-type', 'd', '-maxdepth', '5'],
+      { cwd: projectDir, encoding: 'utf8', stdio: 'pipe' }
+    );
+    return (result.stdout || '')
       .split('\n')
-      .filter(line => line.trim() && !line.includes('brain:'));
-    return humanCommits.length === 0;
+      .map(l => l.trim())
+      .filter(l => l && l !== './.git' && !l.startsWith('./_brain'))
+      .map(l => resolve(projectDir, l.replace('/.git', '').slice(2)));
   } catch {
-    return true; // if git unavailable, assume idle
+    return [];
   }
+}
+
+function isProjectIdle(projectDir) {
+  const repos = [projectDir, ...findSubRepos(projectDir)];
+  for (const repoDir of repos) {
+    try {
+      const result = spawnSync('git', ['log', '--since=1 hour ago', '--oneline'], {
+        cwd: repoDir, encoding: 'utf8', stdio: 'pipe',
+      });
+      const humanCommits = (result.stdout || '')
+        .split('\n')
+        .filter(line => line.trim() && !line.includes('brain:'));
+      if (humanCommits.length > 0) return false; // active work detected
+    } catch {}
+  }
+  return true; // all repos idle
 }
 
 function findClaude() {
@@ -135,6 +150,50 @@ async function runViaInbox(task) {
   return true;
 }
 
+async function updateDashboardScheduledTasks(queue) {
+  const dashboardPath = resolve(PROJECT_DIR, '_brain/dashboard.html');
+  if (!existsSync(dashboardPath)) return;
+
+  try {
+    let html = await readFile(dashboardPath, 'utf8');
+
+    const fmt = iso => iso
+      ? new Date(iso).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+      : '—';
+
+    const rows = queue.tasks.map(task => {
+      const dot   = task.enabled ? (task.status === 'running' ? 'bg-amber-400' : 'bg-emerald-500') : 'bg-gray-300 dark:bg-gray-600';
+      const badge = task.enabled ? task.status : 'disabled';
+      return `        <div class="flex items-start justify-between gap-4 py-3 border-b border-gray-100 dark:border-gray-800 last:border-0">
+          <div class="flex items-start gap-3 flex-1 min-w-0">
+            <span class="mt-1.5 w-2 h-2 rounded-full ${dot} flex-shrink-0"></span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-sm font-medium">${task.name}</span>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">${badge}</span>
+              </div>
+              <div class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">${task.description}</div>
+            </div>
+          </div>
+          <div class="text-right flex-shrink-0 text-xs text-gray-400 dark:text-gray-500 space-y-0.5">
+            <div>Last: ${fmt(task.last_run)}</div>
+            <div>Next: ${fmt(task.next_run)}</div>
+          </div>
+        </div>`;
+    }).join('\n');
+
+    const block = `\n      <div class="divide-y divide-transparent">\n${rows}\n      </div>\n    `;
+    html = html.replace(
+      /<!-- SCHEDULED_START -->[\s\S]*?<!-- SCHEDULED_END -->/,
+      `<!-- SCHEDULED_START -->${block}<!-- SCHEDULED_END -->`
+    );
+
+    await writeFile(dashboardPath, html);
+  } catch (err) {
+    await log(`Dashboard scheduled tasks update failed: ${err.message}`);
+  }
+}
+
 function gitCommit(taskName) {
   try {
     execSync(`git add _brain/ && git commit -m "brain: auto-task — ${taskName}"`, {
@@ -197,6 +256,7 @@ async function main() {
 
   if (changed) {
     await writeFile(QUEUE_PATH, JSON.stringify(queue, null, 2));
+    await updateDashboardScheduledTasks(queue);
   }
 
   await log('Queue runner finished');
