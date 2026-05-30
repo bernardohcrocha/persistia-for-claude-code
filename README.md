@@ -1,7 +1,21 @@
-# Claude Code OS
+```
+ ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗
+██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝
+██║     ██║     ███████║██║   ██║██║  ██║█████╗
+██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝
+╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗
+ ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
+
+ ██████╗ ██████╗ ██████╗ ███████╗     ██████╗ ███████╗
+██╔════╝██╔═══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝
+██║     ██║   ██║██║  ██║█████╗      ██║   ██║███████╗
+██║     ██║   ██║██║  ██║██╔══╝      ██║   ██║╚════██║
+╚██████╗╚██████╔╝██████╔╝███████╗    ╚██████╔╝███████║
+ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝     ╚═════╝ ╚══════╝
+```
 
 **Your company's operating layer for Claude Code.**  
-One file. No server. No lock-in. Works with the tools you already use.
+Local files. No server. No lock-in. Works with the tools you already use.
 
 ```
 "Help me implement the Claude Code OS for my company."
@@ -172,7 +186,7 @@ _brain/
 
 | Principle | What it means |
 |---|---|
-| **One file** | The entire system ships as a single HTML file. Drop it anywhere, say the phrase, the agent builds the rest. |
+| **Local files** | Everything lives as files in your project — HTML, Markdown, no database. Version control it, move it, copy it, own it completely. |
 | **Index-first** | The agent always reads `index.html` before any action. Never loads everything — only what's needed for the current task. |
 | **Living brain** | Metrics auto-update from your tools. Documents process when dropped in inbox. Skills evolve from your instructions. |
 | **Memory ≠ Skills** | Memory stores facts (what's true). Skills store instructions (how to operate). Different files, different purpose. |
