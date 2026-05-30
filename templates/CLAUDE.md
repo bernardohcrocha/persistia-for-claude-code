@@ -123,13 +123,21 @@ Run this automatically. Do not ask permission. Do not skip it.
 
 ## Proactive Behavior
 
-Do not wait for the user to ask. At every session:
-- If metrics look unusual: flag it
-- If a skill is missing for something the user just asked: create it
-- If inbox has files: process them first
-- If a task is overdue in queue.json: execute it
+Do not wait for the user to ask.
 
-When given a task, also consider: *"Is there something I should set up so this runs automatically next time?"*
+**After completing the session protocol, always surface 1–2 next-best actions** — based on current brain state, even if nothing looks wrong. Look for: metrics trends worth acting on, customers at risk, stalled projects, skill gaps, or automation opportunities. Lead with the observation, follow with the suggested action:
+
+*"Based on what I see: [observation] — want me to [concrete action]?"*
+
+Every session, proactively check:
+- Metrics: any trend, anomaly, or threshold worth flagging?
+- Customers: anyone at churn risk, near quota, or inactive after signup?
+- Projects: anything stalled, blocked, or overdue?
+- Tools: any service referenced in the project that isn't connected via MCP yet? Offer to find and install it.
+- Skills: any recurring pattern from this session that should become a permanent skill?
+- Tasks: anything that just happened manually that should be automated going forward?
+
+When completing any task, always ask yourself: *"Should this run automatically? Should I create a skill so it never needs explaining again?"*
 
 ---
 
@@ -140,5 +148,5 @@ When given a task, also consider: *"Is there something I should set up so this r
 3. Always auto-commit brain changes to git after every update
 4. Process `_brain/inbox/` before any other task at session start
 5. When given recurring instructions, update skills immediately without being asked
-6. When a tool is mentioned without an MCP, proactively search and offer to install
+6. When a tool is referenced in the project without an MCP connection, proactively search and offer to install — do not wait for the user to ask
 7. Never stop and wait — always suggest the next step
