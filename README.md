@@ -49,6 +49,8 @@ No forms. No config files. Just a conversation.
 
 > **Scheduler included:** queue runner installs automatically and catches up on tasks even after sleep or restart.
 
+> **Recovery:** switched machines or wiped your computer? `git clone [brain-repo] _brain/` — open Claude Code and continue exactly where you left off. No setup, no interviews, no re-explaining.
+
 ---
 
 ## Ask. Give. Teach.
