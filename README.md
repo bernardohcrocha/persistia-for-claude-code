@@ -6,7 +6,7 @@
 
 # The Operational Copilot for Solo Founders.
 
-Fully local · No extra tools · Done-for-you SOPs · Self-evolving · Auto git backup
+Fully local · No extra tools · No workflow changes · Self-evolving · Auto git backup
 
 [![MIT License](https://img.shields.io/badge/License-MIT-da7756?style=flat-square)](LICENSE)
 [![Built for Claude Code](https://img.shields.io/badge/Built%20for-Claude%20Code-da7756?style=flat-square&logo=anthropic&logoColor=white)](https://claude.ai/code)
@@ -20,6 +20,8 @@ You're running a real company solo. You already have Stripe, Supabase, code, doc
 **Claude Code OS turns all of that into an operational co-pilot that knows your whole business, executes tasks on command, and proactively suggests what to do next.**
 
 **No extra subscriptions.** Replaces Trello for task tracking, Notion for documentation, and a lightweight CRM for customer management — all in **static files** your AI reads, updates, and acts on **automatically**, **backed up to git** on every update.
+
+**No workflow changes.** It reads how you already work, learns your processes, and organizes around them. You don't adapt to it — **it adapts to you.**
 
 **Fully local.** Your API keys stay on your machine. No infrastructure to set up. No remote server. No data leaving your environment. Just open your project, paste one command, and let it ask you what it needs.
 
@@ -94,11 +96,11 @@ These become **permanent skills**: created automatically, updated on the fly, ap
 
 ## How it works
 
-**1. Drop what you have.** Put any file in `_brain/inbox/`: docs, code, configs, exports. It reads everything, extracts what matters, archives the originals.
+**1. Opens your project and reads everything.** Code, docs, `.env` files, configs — the entire project root, automatically. Large codebases are processed in batches to make sure nothing is left behind.
 
 **2. One conversation.** It asks only what it can't find. No forms, no checklists. One question at a time.
 
-**3. The brain runs itself.** Skills improve automatically. Metrics update daily. Every session picks up where the last one left off.
+**3. Stays in sync automatically.** Every day, a `git diff` detects exactly what changed — new files, edited docs, code updates, anything added anywhere in your project folder. The brain updates accordingly. Missed a run because the computer was off? **Automatic recovery** runs it as soon as you're back.
 
 Not a template you fill in. A system that builds around you.
 
@@ -131,10 +133,9 @@ _brain/
 ├── index.html        ← agent reads this first, every session
 ├── dashboard.html    ← live command center, auto-refreshes in browser
 ├── core/             ← product, brand, ICP
-├── operations/       ← metrics + customers, auto-updated via cron
+├── operations/       ← metrics + customers, auto-updated daily
 ├── skills/           ← self-improving rules, created and updated automatically
-├── inbox/            ← drop any files here anytime
-└── archive/          ← processed files, kept for reference
+└── tasks/            ← scheduled tasks queue, managed automatically
 ```
 
 ---

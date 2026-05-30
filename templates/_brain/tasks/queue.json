@@ -2,10 +2,24 @@
   "version": "1.0",
   "tasks": [
     {
+      "id": "daily-brain-sync",
+      "name": "Daily Brain Sync",
+      "description": "Incremental project scan via git diff — updates brain with what changed today",
+      "prompt": "Run daily brain sync: (1) Run `git diff HEAD~1 --name-only` to list all files changed or added since yesterday. (2) Read each changed file. (3) Update relevant _brain/core/ or _brain/operations/ sections based on what changed — new features, config changes, new docs, anything. (4) If new non-code files found (PDFs, notes, exports): extract knowledge and update brain. (5) Auto-commit: `git add _brain/ && git commit -m 'brain: daily sync'`.",
+      "schedule": {
+        "type": "daily",
+        "time": "09:00"
+      },
+      "last_run": null,
+      "next_run": null,
+      "status": "pending",
+      "enabled": false
+    },
+    {
       "id": "weekly-brain-review",
       "name": "Weekly Brain Review",
-      "description": "Proactive weekly analysis of the business",
-      "prompt": "Run the weekly brain review for this project: (1) Read _brain/operations/metrics.html — compare key metrics to last week, flag any anomaly. (2) Check _brain/inbox/ for unprocessed signals. (3) Review active projects in _brain/index.html and check their status. (4) Review _brain/skills/ — identify any gaps based on recent sessions. (5) Generate a report with: what is going well, what is anomalous, top 3 opportunities to act on this week, 1 thing to fix. Save the report to _brain/inbox/weekly-review-YYYY-MM-DD.md. Auto-commit to git.",
+      "description": "Full business review — metrics, projects, customers, health check, report",
+      "prompt": "Run the weekly brain review: (1) Read _brain/operations/metrics.html — compare key metrics to last week, flag any anomaly. (2) Review active projects in _brain/index.html — check their status and flag anything blocked or delayed. (3) Review _brain/skills/ — identify any gaps based on recent sessions. (4) Check _brain/scripts/queue-runner.log for recent errors — if any, surface them in the report. (5) Generate a report with: what is going well, what is anomalous, top 3 opportunities to act on this week, 1 thing to fix. Save the report to _brain/tasks/weekly-review-YYYY-MM-DD.md. Auto-commit to git.",
       "schedule": {
         "type": "weekly",
         "day": "monday",
