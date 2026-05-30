@@ -17,15 +17,17 @@ Local-first · No extra tools · No workflow changes · Self-evolving · Auto gi
 
 You're running a real company solo. You already have Stripe, Supabase, code, docs, customers — all sitting in your project folder.
 
-**Claude Code OS turns all of that into an operational co-pilot that knows your whole business, executes tasks on command, and proactively suggests what to do next.**
+Claude Code already has the execution layer — it can run code, call APIs, write files, and schedule tasks autonomously. **The missing piece was a persistent operational brain:** something that knows your business, remembers your processes, and gets smarter without you having to repeat yourself.
+
+**Claude Code OS is that layer.**
 
 **No extra subscriptions.** Replaces Trello for task tracking, Notion for documentation, and a lightweight CRM for customer management — all in **static files** your AI reads, updates, and acts on **automatically**, **backed up to git** on every update.
 
 **No workflow changes.** It reads how you already work, learns your processes, and organizes around them. You don't adapt to it — **it adapts to you.**
 
-**Local-first.** Your API keys stay on your machine. No infrastructure to set up. No remote server. No data leaving your environment. Just open your project, paste one command, and let it ask you what it needs.
+**Local-first.** Your API keys stay on your machine. No infrastructure to set up. No remote server. No data leaving your environment.
 
-Pair it with **speech-to-text** to give voice orders as you would to a real **super employee** — ask questions, delegate tasks, and let it run on autopilot ([handy.computer](https://handy.computer) and [Wispr Flow](https://wisprflow.ai/) work great for this).
+One more trick: pair it with **speech-to-text** ([Wispr Flow](https://wisprflow.ai/) or [handy.computer](https://handy.computer)) and it starts feeling like an actual **super employee** you can give orders to from anywhere — desk, commute, or walking between meetings.
 
 ---
 
@@ -37,7 +39,7 @@ Open Claude Code in your **project root folder** (so it has access to all subfol
 curl -fsSL https://raw.githubusercontent.com/bernardohcrocha/claude-code-os/main/setup.sh | bash
 ```
 
-Claude picks up immediately after setup — scans your entire project, connects to your existing tools, discovers what's missing, and starts the interview. One question at a time.
+Claude picks up immediately — scans your entire project, connects to your existing tools, discovers what's missing, and starts the interview. One question at a time.
 
 No forms. No config files. Just a conversation.
 
@@ -47,37 +49,39 @@ No forms. No config files. Just a conversation.
 
 ---
 
-## Ask. Give it operational tasks. Teach.
+## Ask. Give. Teach.
 
-**Ask questions your dashboard can't answer**
+**Ask** — questions no dashboard can answer
 
-- *"Which customers with above-average ticket size dropped usage by more than 30% this month? What's the likely reason?"*
+*"Which customers dropped usage by 30%+ this month? What's the likely reason?"*
 
-- *"Cross-reference last week's support tickets with plan tier. List any Pro customers with recurring issues and suggest whether to escalate or issue a credit."*
+*"Any Pro customers with recurring support issues? Should I escalate or issue a credit?"*
 
-- *"Of the signups from the last 30 days who haven't made a single API call yet, which ones look like real companies worth following up on?"*
+*"Of signups in the last 30 days with zero API calls — which ones look like real companies worth following up?"*
 
-**Give it operational tasks**
+---
 
-- *"Find customers with 6+ months of tenure and 500+ monthly calls. Draft a personalized message for each asking about their integration needs."*
+**Give** — operational tasks, run on your schedule
 
-- *"Every Monday, compare new signups vs churned accounts from the previous week. Send me a summary with a suggested action for each segment."*
+*"Find customers with 6+ months of tenure. Draft a personalized message for each asking about their integration needs."*
 
-- *"Whenever a Pro account is below 10% of their monthly quota by the 20th, notify me and queue a check-in message for that customer."*
+*"Every Monday at 9am: pull last week's numbers, flag anomalies, send me a summary with a suggested action for each segment."*
 
-- *"Every Monday at 9am: pull last week's numbers, flag any anomaly, and send me a summary with a suggested action for each segment."*
+*"Whenever a Pro account is below 10% quota by the 20th, queue a check-in message."*
 
-Set once. Runs automatically on schedule.
+Set once. Runs automatically.
 
-**Teach it how you work**
+---
 
-- *"When flagging fraud in new signups, always cross-check: disposable email domain, multiple accounts with the same name, and signup time."*
+**Teach** — how you work, so it never forgets
 
-- *"Whenever a customer upgrades, add them to a 30-day success sequence: first message at day 3, follow-up at day 14."*
+*"When flagging fraud: always cross-check disposable email domains, duplicate names, and signup timing."*
 
-- *"Group any churn risk report by company size: under 50 employees gets a personal email, over 50 gets flagged for me to handle directly."*
+*"When a customer upgrades: add them to a 30-day sequence — message at day 3, follow-up at day 14."*
 
-These become **permanent skills**: created automatically, updated on the fly, applied in every future session without reminders.
+*"Churn risk reports: under 50 employees gets a personal email, over 50 gets flagged for me to handle directly."*
+
+These become **permanent skills** — created automatically, applied in every future session. No reminders. No re-explaining.
 
 ---
 
@@ -88,7 +92,7 @@ These become **permanent skills**: created automatically, updated on the fly, ap
 | **Your existing tools, already connected** | Reads your codebase, docs, and `.env` files. Your Stripe key is already there. Your product logic is in the code. Zero extra setup. |
 | **Self-improving skills** | Every instruction becomes a permanent rule. Created and updated on the fly, applied forever. One correction, done. |
 | **Live business metrics** | Connects to Stripe, Supabase, or any database already in your project. Builds a live dashboard — updated whenever your data changes or a scheduled task runs. |
-| **Proactive setup** | Reads your entire project, detects your stack, and suggests use cases specific to your business. Doesn't wait to be asked. |
+| **Proactive suggestions** | Every 3 days, scans your customers, channels, and metrics — and leaves you a note with what it noticed. Never interrupts active work. Always asks before acting. |
 | **Process documentation** | No SOPs yet? It interviews you and writes them. Then keeps them updated as things change. |
 | **Plain language operations** | Send emails, query databases, generate reports, schedule tasks. No code required. |
 
@@ -110,15 +114,15 @@ Not a template you fill in. A system that builds around you.
 
 All instructions, protocols, and company knowledge live in `CLAUDE.md` and `_brain/`. Restart your computer, come back after a month, switch machines — Claude reads the files and continues without skipping a beat.
 
-No re-explaining your stack. No onboarding again. **Nothing lost.**
+No re-explaining your stack. No copy-pasting context. No sending files back and forth. **Nothing lost.**
 
 ---
 
 ## Your live command center
 
-Metrics, active projects, customers to watch, tasks in progress — everything in one auto-refreshing page.
+Metrics, active projects, customers to watch, tasks in progress, proactive suggestions — everything in one auto-refreshing page.
 
-Built from your actual data on day one, 100% tailored to your business. No static boxes. No past-century dashboard grids. A dynamic interface that adapts to what you're currently working on.
+No cookie-cutter template. No fixed layout. The dashboard is built from your actual data and evolves as your business does — different sections, different metrics, different priorities. What's most relevant right now is what it shows.
 
 Want to change anything? Give it a voice instruction. Done.
 
@@ -137,20 +141,6 @@ _brain/
 ├── skills/           ← self-improving rules, created and updated automatically
 └── tasks/            ← scheduled tasks queue, managed automatically
 ```
-
----
-
-## Why it works differently
-
-| | |
-|---|---|
-| **Reads first, asks second** | Drops into your project and reads your code, docs, and `.env` files. No explaining your stack. No reconnecting your tools. |
-| **Asks the right questions** | Identifies what's missing and asks only that. One question at a time. It guides you. You don't chase it. |
-| **Works with any starting point** | No SOPs? No documentation? Big mess of files? No problem. It interviews you and builds the structure for you. |
-| **Improves itself automatically** | Every instruction updates persistent memory and creates or updates skills on the fly. The more you use it, the smarter it gets. |
-| **Local-first** | No remote server, no database. Lives in your project: portable, versionable, fully owned. Port to any tool at any time. |
-| **Builds around you** | Not generic. Every brain, dashboard, and skill is shaped by your specific company, data, and instructions. |
-| **Git as your safety net** | Every brain update is auto-committed. Permanent log. Push to GitHub for a cloud backup that stays in sync. Restore anything, anytime. |
 
 ---
 
