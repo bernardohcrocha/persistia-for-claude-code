@@ -2,11 +2,11 @@
 
 ![Claude Code OS](claude-code-os.png)
 
-# Claude Code OS
+**Claude Code OS**
 
-**Operational Co-Pilot for Solo Founders**
+# The Operational Co-Pilot for Solo Founders
 
-Self-improving · No new tools · No server · No lock-in
+Self-improving · No new tools · No remote server · No lock-in
 
 [![MIT License](https://img.shields.io/badge/License-MIT-da7756?style=flat-square)](LICENSE)
 [![Built for Claude Code](https://img.shields.io/badge/Built%20for-Claude%20Code-da7756?style=flat-square&logo=anthropic&logoColor=white)](https://claude.ai/code)
@@ -17,7 +17,20 @@ Self-improving · No new tools · No server · No lock-in
 
 ## Why Claude Code OS?
 
-Other agent tools are powerful but passive — you figure out the use cases, connect the tools, write the prompts. Claude Code OS reads your existing project, understands your business, and **proactively suggests what it can do for you**. Every instruction you give is saved as a **self-improving skill**, applied automatically in every future session. It gets smarter the more you use it — with zero new infrastructure, zero new tools, and zero re-explaining.
+After testing OpenClaw, Hermes Agent, and Agent Zero — all solid, all worth exploring — I kept hitting the same wall. They're built for engineers who want to configure agent infrastructure. You define the use cases, spin up the server, keep your data synced between your machine and a VPS. Powerful, but overkill for someone running a company solo.
+
+I needed something that runs inside Claude Code (already open every day), knows my business without starting from scratch each session, and gets smarter from the instructions I give naturally. No extra tools. No remote server. No setup tax.
+
+The real goal was to get as close as possible to having a real super employee — someone who knows everything about the company, learns from every interaction, and is always available. Pairing it with speech-to-text like [handy.computer](https://handy.computer) or WhisperFlow makes that real: give orders while commuting, ask questions between meetings, let it run and learn on autopilot.
+
+**The result:** minimum input, maximum output.
+
+| | |
+|---|---|
+| **Reads first, asks second** | Drops into your project and reads your code, docs, and `.env` files. No explaining your stack. No reconnecting your tools. |
+| **Asks the right questions** | Identifies what's missing and asks only that. One question at a time. It guides you — you don't chase it. |
+| **Works with any starting point** | No SOPs? No documentation? Big mess of files? No problem. It interviews you and builds the structure for you. |
+| **Improves itself automatically** | Every instruction creates or updates a skill on the fly. The more you use it, the smarter it gets — without any extra steps. |
 
 ---
 
@@ -29,26 +42,28 @@ Open Claude Code in your project and paste:
 Help me implement Claude Code OS: https://github.com/bernardohcrocha/claude-code-os
 ```
 
-The agent fetches the framework and starts the setup interview automatically — reading what you already have, asking only what's missing.
+The agent fetches the framework and starts the setup interview automatically.
 
 ---
 
 ## Example Use Cases
 
-**Ask anything about your business**
-> *"How's my MRR this month vs last?"*  
-> *"Which accounts are at risk right now?"*  
-> *"Who signed up today — any look like fraud?"*
+**Ask questions you can't answer with a quick dashboard check**
+> *"Which customers are showing early signs of churn based on their usage pattern this month?"*  
+> *"Compare my CAC this quarter vs last — is cold email converting better than Google Ads?"*  
+> *"Analyze today's signups and tell me which ones are worth prioritizing for outreach and why"*  
+> *"Draft a win-back sequence for customers who downgraded in the last 60 days, using their specific plan history"*
 
 **Give operational orders**
 > *"Follow up with users who haven't made a second query in 7 days"*  
-> *"Every Monday, send me a report of new signups and at-risk accounts"*
+> *"Every Monday, send me a report of new signups and at-risk accounts"*  
+> *"Set up a daily digest of support patterns and flag anything recurring"*
 
 **Teach it your way of working**
 > *"From now on, always mention LGPD when writing to accounting firms"*  
 > *"Never group emails by domain — send one per person"*
 
-These become **permanent skills** — applied automatically in every future session, without reminders.
+These become **permanent skills** — created and updated automatically, applied in every future session without reminders.
 
 ---
 
@@ -56,25 +71,25 @@ These become **permanent skills** — applied automatically in every future sess
 
 | | |
 |---|---|
-| **Uses everything you already have** | Reads your codebase, docs, and `.env` files. Your Stripe key is already there — no reconnecting. Your product logic is in the code — no re-explaining. Minimum effort to get started. |
-| **Self-improving skills** | Every instruction becomes a permanent rule, applied forever. One correction, done. Never repeat yourself. |
-| **Proactive setup** | Reads your entire project, detects your tools, and **suggests use cases for your specific business** — you don't have to figure out what to ask for. |
-| **Process documentation** | No SOPs written yet? It interviews you and **writes the documentation for you** — then keeps it updated automatically. |
-| **Live business metrics** | Connects to Stripe, Supabase, or any database already in your project. Revenue, customers, and usage **auto-update daily**. |
-| **Operational orders** | Send emails, query databases, generate reports, schedule recurring tasks — all in **plain language**, no code. |
+| **Uses everything you already have** | Reads your codebase, docs, and `.env` files. Your Stripe key is already there. Your product logic is in the code. Minimum effort to get started. |
+| **Self-improving skills** | Every instruction becomes a permanent rule. Created and updated on the fly, applied forever. One correction, done. |
+| **Proactive setup** | Reads your entire project, detects your tools, and suggests use cases specific to your business. |
+| **Process documentation** | No SOPs yet? It interviews you and writes them for you — then keeps them updated as things change. |
+| **Live business metrics** | Connects to Stripe, Supabase, or any database already in your project. Auto-updates daily. |
+| **Operational orders** | Send emails, query databases, generate reports, schedule tasks — in plain language, no code. |
 
 ---
 
 ## Setup — low effort. It guides you.
 
-Just drop what you have. The agent reads everything, asks only what's missing, and guides you through the rest.
+Just drop what you have. The agent reads everything, asks only what's missing, and handles the rest.
 
-- **Drop your documents and files** into `_brain/inbox/` — SOPs, brand guides, price tables, contracts, code, configs. Reads everything, extracts what matters, archives the originals. Large codebases processed in stages.
-- **Zero-friction connections** — your `.env` already has Stripe, Supabase, and other keys. Used directly, no reconnecting.
-- **Asks only what's missing** — one question at a time, in plain language.
-- **Suggests use cases** — based on what it found in your actual project, not generic templates.
-- **Writes missing documentation** — *"I didn't find any SOPs — want me to document your onboarding process?"*
-- **Builds a live dashboard** — your north star metrics, auto-refreshing in the browser.
+- **Drop your files** into `_brain/inbox/` — docs, code, configs, anything. Reads everything, extracts what matters, archives the originals. Large codebases processed in stages.
+- **Zero-friction connections** — your `.env` already has Stripe, Supabase, and other keys. Used directly.
+- **One question at a time** — no forms, no checklists. Just a conversation.
+- **Suggests use cases** based on what it found in your actual project.
+- **Writes missing documentation** — *"No SOPs found — want me to document your onboarding process?"*
+- **Builds a live dashboard** — metrics auto-refreshing in your browser.
 
 After that, **the brain runs itself.**
 
@@ -88,8 +103,8 @@ _brain/
 ├── dashboard.html    ← live metrics, auto-refreshes in browser
 ├── core/             ← product, brand, ICP
 ├── operations/       ← metrics + customers, auto-updated via cron
-├── skills/           ← self-improving rules, evolve from every instruction
-├── inbox/            ← drop any documents or files here anytime
+├── skills/           ← self-improving rules, created and updated automatically
+├── inbox/            ← drop any files here anytime
 └── archive/          ← processed files, kept for reference
 ```
 
@@ -100,14 +115,10 @@ _brain/
 | | |
 |---|---|
 | **Single source of truth** | All company knowledge in one place — queryable, actionable, always up to date. |
-| **Uses what you have** | Reads your existing project, code, and tools. Minimum effort to get started, minimum effort to keep going. |
-| **Self-improving** | Skills evolve from your instructions. Every correction makes it permanently smarter. No retraining, no config — just talk. |
-| **Proactive, not passive** | Reads your business, suggests actions, documents processes — doesn't wait to be asked. |
-| **Local files** | No server, no database. Everything lives in your project — portable, versionable, fully owned. |
-
----
-
-> **Tip:** Pair with [handy.computer](https://handy.computer) or WhisperFlow to talk to your company by voice — give orders between meetings, ask about revenue while commuting. Your virtual employee, always available.
+| **Minimum input, maximum output** | Reads your existing project and tools. You give instructions in plain language. It handles the rest. |
+| **Self-improving** | Skills evolve from your instructions. Every correction makes it permanently smarter. |
+| **Proactive** | Reads your business, suggests actions, documents processes — doesn't wait to be asked. |
+| **Local files** | No remote server, no database. Lives in your project — portable, versionable, fully owned. |
 
 ---
 
