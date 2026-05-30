@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "tasks": [
+    {
+      "id": "weekly-brain-review",
+      "name": "Weekly Brain Review",
+      "description": "Proactive weekly analysis of the business",
+      "prompt": "Run the weekly brain review for this project: (1) Read _brain/operations/metrics.html — compare key metrics to last week, flag any anomaly. (2) Check _brain/inbox/ for unprocessed signals. (3) Review active projects in _brain/index.html and check their status. (4) Review _brain/skills/ — identify any gaps based on recent sessions. (5) Generate a report with: what is going well, what is anomalous, top 3 opportunities to act on this week, 1 thing to fix. Save the report to _brain/inbox/weekly-review-YYYY-MM-DD.md. Auto-commit to git.",
+      "schedule": {
+        "type": "weekly",
+        "day": "monday",
+        "time": "09:00"
+      },
+      "last_run": null,
+      "next_run": null,
+      "status": "pending",
+      "enabled": false
+    }
+  ]
+}

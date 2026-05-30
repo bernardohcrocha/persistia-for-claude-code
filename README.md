@@ -27,13 +27,19 @@ Pair it with **speech-to-text** to give voice orders as you would to a real **su
 
 ## One command. It builds itself from there.
 
-Open Claude Code in your project and paste:
+Run this in your project folder:
 
-```
-Help me implement Claude Code OS: https://github.com/bernardohcrocha/claude-code-os
+```bash
+curl -fsSL https://raw.githubusercontent.com/bernardohcrocha/claude-code-os/main/setup.sh | bash
 ```
 
-Claude reads your codebase, connects to your existing tools, and asks only what it can't find. Then it builds your brain and starts running. No forms. No checklists. Just a conversation.
+Then open Claude Code. It scans your entire project, connects to your existing tools, discovers what's missing, and starts the setup interview — one question at a time.
+
+No forms. No config files. Just a conversation.
+
+> **Requires:** git · Node.js 18+
+
+> **Scheduler included:** queue runner installs automatically and catches up on tasks even after sleep or restart.
 
 ---
 
