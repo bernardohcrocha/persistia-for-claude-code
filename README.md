@@ -19,13 +19,15 @@ Self-improving · No new tools · No remote server · No lock-in
 
 After testing OpenClaw, Hermes Agent, and Agent Zero — all solid, all worth exploring — I kept hitting the same wall. They're built for engineers who want to configure agent infrastructure. You define the use cases, spin up the server, keep your data synced between your machine and a VPS. Powerful, but overkill for someone running a company solo.
 
-I needed something that runs inside Claude Code (already open every day), knows my business without starting from scratch each session, and gets smarter from the instructions I give naturally. No extra tools. No remote server. No setup tax.
+I needed something that runs inside Claude Code (already open every day), knows my business without starting from scratch each session, and gets smarter naturally — **without extra tools, remote servers, or setup tax. Everything runs locally on your machine, and I can port it to any project at any time, keeping full control.**
 
-The real goal was to get as close as possible to having a real super employee — someone who knows everything about the company, learns from every interaction, and is always available. Pairing it with speech-to-text like [handy.computer](https://handy.computer) or WhisperFlow makes that real: give orders while commuting, ask questions between meetings, let it run and learn on autopilot.
+The real goal was to get **as close as possible to having a real super employee** — someone who knows everything about the company, learns from every interaction, and is always available. Pairing it with speech-to-text like [handy.computer](https://handy.computer) or WhisperFlow makes that real: give orders while commuting, ask questions between meetings, let it run and learn on autopilot.
 
 **The result:** minimum input, maximum output.
 
-| | |
+### Core Philosophy
+
+| Principle | What it means |
 |---|---|
 | **Reads first, asks second** | Drops into your project and reads your code, docs, and `.env` files. No explaining your stack. No reconnecting your tools. |
 | **Asks the right questions** | Identifies what's missing and asks only that. One question at a time. It guides you — you don't chase it. |
@@ -50,21 +52,27 @@ The agent fetches the framework and starts the setup interview automatically.
 
 **Ask questions you CAN'T answer with a quick dashboard check**
 
-- *"Which customers are showing early signs of churn based on their usage pattern this month?"*
-- *"Compare my CAC this quarter vs last — is cold email converting better than Google Ads?"*
-- *"Analyze today's signups and tell me which ones are worth prioritizing for outreach and why"*
-- *"Draft a win-back sequence for customers who downgraded in the last 60 days, using their specific plan history"*
+- *"Which customers with above-average ticket size dropped usage by more than 30% this month — and what's the likely reason?"*
+
+- *"Cross-reference last week's support tickets with plan tier. List any Pro customers with recurring issues and suggest whether to escalate or issue a credit."*
+
+- *"Of the signups from the last 30 days who haven't made a single API call yet, which ones look like real companies worth following up on?"*
 
 **Give operational orders**
 
-- *"Follow up with users who haven't made a second query in 7 days"*
-- *"Every Monday, send me a report of new signups and at-risk accounts"*
-- *"Set up a daily digest of support patterns and flag anything recurring"*
+- *"Find customers with 6+ months of tenure and 500+ monthly calls. Draft a personalized message for each asking about their other integration needs."*
+
+- *"Every Monday, compare new signups vs churned accounts from the previous week. Send me a summary with a suggested action for each segment."*
+
+- *"Whenever a Pro account is below 10% of their monthly quota by the 20th, notify me and queue a check-in email for that customer."*
 
 **Teach it your way of working**
 
-- *"From now on, always mention LGPD when writing to accounting firms"*
-- *"Never group emails by domain — send one per person"*
+- *"When flagging fraud in new signups, always cross-check: disposable email domain, multiple accounts with the same name, and signup time."*
+
+- *"Whenever a customer upgrades, add them to a 30-day success sequence — first message at day 3, follow-up at day 14."*
+
+- *"Group any churn risk report by company size: under 50 employees gets a personal email, over 50 gets flagged for me to handle directly."*
 
 These become **permanent skills** — created and updated automatically, applied in every future session without reminders.
 
@@ -122,8 +130,6 @@ _brain/
 | **Self-improving** | Skills evolve from your instructions. Every correction makes it permanently smarter. |
 | **Proactive** | Reads your business, suggests actions, documents processes — doesn't wait to be asked. |
 | **Local files** | No remote server, no database. Lives in your project — portable, versionable, fully owned. |
-
----
 
 ---
 
