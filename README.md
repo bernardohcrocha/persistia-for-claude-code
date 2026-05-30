@@ -45,6 +45,8 @@ No forms. No config files. Just a conversation.
 
 > **Requires:** git · Node.js 18+
 
+> **Optional:** [GitHub CLI](https://cli.github.com) (`gh`) — if installed and authenticated, setup automatically creates a private brain repository and enables cloud backup with every commit.
+
 > **Scheduler included:** queue runner installs automatically and catches up on tasks even after sleep or restart.
 
 ---
@@ -93,6 +95,7 @@ These become **permanent skills** — created automatically, applied in every fu
 | **Self-improving skills** | Every instruction becomes a permanent rule. Created and updated on the fly, applied forever. One correction, done. |
 | **Live business metrics** | Connects to Stripe, Supabase, or any database already in your project. Builds a live dashboard — updated whenever your data changes or a scheduled task runs. |
 | **Proactive suggestions** | Every 3 days, scans your customers, channels, and metrics — and leaves you a note with what it noticed. Never interrupts active work. Always asks before acting. |
+| **Cloud backup** | Brain lives in its own private git repository, separate from your project. Every update commits and pushes automatically. Format your computer, clone the brain repo, continue where you left off. |
 | **Process documentation** | No SOPs yet? It interviews you and writes them. Then keeps them updated as things change. |
 | **Plain language operations** | Send emails, query databases, generate reports, schedule tasks. No code required. |
 
@@ -134,6 +137,7 @@ Want to change anything? Give it a voice instruction. Done.
 
 ```
 _brain/
+├── .git/             ← isolated brain repository — pushes to private GitHub remote
 ├── index.html        ← agent reads this first, every session
 ├── dashboard.html    ← live command center, auto-refreshes in browser
 ├── core/             ← product, brand, ICP
@@ -141,6 +145,8 @@ _brain/
 ├── skills/           ← self-improving rules, created and updated automatically
 └── tasks/            ← scheduled tasks queue, managed automatically
 ```
+
+→ [How the git architecture works](ARCHITECTURE.md)
 
 ---
 
