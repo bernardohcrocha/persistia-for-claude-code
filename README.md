@@ -47,6 +47,18 @@ Set once. Runs automatically. Already has full context because it lives in the p
 
 ---
 
+## Your live command center.
+
+Open `_brain/dashboard.html` in your browser. It auto-refreshes every 5 minutes.
+
+No fixed template. The dashboard is built from your actual data and evolves as your business does. Different sections, different metrics, different priorities based on what matters right now.
+
+Scheduled tasks, proactive suggestions, active projects, weekly review: all updated automatically in the background. You see the results without opening a conversation.
+
+Want to change anything? Just tell it.
+
+---
+
 ## Token-efficient by design.
 
 Every day, `git diff HEAD~1` detects exactly what changed. 1,000 files in the project, 3 changed today: it reads 3. Not a full re-read. Just the delta.
