@@ -6,7 +6,7 @@
 
 # The Operational Copilot that Self-Updates.
 
-Local-first · No extra tools · No workflow changes · Token-efficient · Auto git backup
+Self-evolving · No extra tools · No workflow changes · Token-efficient · Auto git backup
 
 [![MIT License](https://img.shields.io/badge/License-MIT-da7756?style=flat-square)](LICENSE)
 [![Built for Claude Code](https://img.shields.io/badge/Built%20for-Claude%20Code-da7756?style=flat-square&logo=anthropic&logoColor=white)](https://claude.ai/code)
@@ -15,11 +15,11 @@ Local-first · No extra tools · No workflow changes · Token-efficient · Auto 
 
 ---
 
-Claude Code executes well. The problem is it has no operational memory.
+Claude Code executes well. The problem is it has no **operational memory**.
 
-Every session starts from zero. Every new feature, every new document, every detail that changed in your project — you have to re-explain it, or dump the entire project as context and pay the token cost. Either way, you're doing work the agent should be doing.
+Every session starts from zero. Every new feature, every new document, every detail that changed in your project: you had to re-explain it, or dump the entire project as context and pay the token cost. Either way, you're doing work the agent should be doing.
 
-**Claude Code OS fixes that.** A `_brain/` folder lives inside your project root. It reads from your code, docs, and configs on first run. From then on, it updates itself — every day, automatically, based on what actually changed.
+**Claude Code OS fixes that.** A `_brain/` folder lives inside your project root. It reads from your code, docs, and configs on first run. From then on, it updates itself every day, automatically, based on what actually changed.
 
 ---
 
@@ -33,13 +33,15 @@ You come back after a month on a new machine. It reads the files and continues w
 
 ---
 
-## It acts — not just remembers.
+## It acts. Not just remembers.
+
+Ask questions no simple dashboard can answer. Or schedule tasks that run automatically, with full context already loaded.
 
 → *"Which customers dropped usage 30%+ this month? Cross-check their support history and draft a personalized re-engagement message for each."*
 
 → *"Every Monday: pull last week's numbers from Stripe, compare against the previous week, flag anomalies, and queue a follow-up for any account that dropped below 10% quota."*
 
-→ *"Find signups from the last 30 days with no activity after signup. Filter out fake-looking domains. Visit each company's website, understand what they do, map it to how similar customers already use the product, and write a personalized email for each — leading with the pain points most relevant to their specific use case."*
+→ *"Find signups from the last 30 days with no activity after signup. Filter out fake-looking domains. Visit each company's website, understand what they do, map it to how similar customers already use the product, and write a personalized email for each, leading with the pain points most relevant to their specific use case."*
 
 Set once. Runs automatically. Already has full context because it lives in the project.
 
@@ -47,9 +49,9 @@ Set once. Runs automatically. Already has full context because it lives in the p
 
 ## Token-efficient by design.
 
-Every day, `git diff HEAD~1` detects exactly what changed. 1,000 files in the project, 3 changed today — it reads 3. Not a full re-read. Just the delta.
+Every day, `git diff HEAD~1` detects exactly what changed. 1,000 files in the project, 3 changed today: it reads 3. Not a full re-read. Just the delta.
 
-One changed file updates every dimension it touches simultaneously — product knowledge, customer segments, metrics, skills. Cross-dimensional, automatic, lightweight.
+One changed file updates every dimension it touches at once: product knowledge, customer segments, metrics, skills. Automatic. Lightweight.
 
 ---
 
@@ -63,7 +65,7 @@ It writes `_brain/skills/fraud.md` immediately. Loaded at every future session s
 
 ## Pair it with speech-to-text.
 
-Add [Wispr Flow](https://wisprflow.ai/) or [handy.computer](https://handy.computer) and it starts feeling like a real super employee you can give orders to from anywhere — desk, commute, walking between meetings.
+Add [Wispr Flow](https://wisprflow.ai/) or [handy.computer](https://handy.computer) and it starts feeling like a real super employee you can give orders to from anywhere: desk, commute, walking between meetings.
 
 *"Check if any Pro accounts are near quota and draft a heads-up for each."* Done. While you're making coffee.
 
@@ -91,7 +93,7 @@ Claude scans your entire project, connects to your existing tools, and asks only
 
 ```
 _brain/
-├── .git/             ← isolated brain repository — pushes to private GitHub remote
+├── .git/             ← isolated brain repository, pushes to private GitHub remote
 ├── index.html        ← agent reads this first, every session
 ├── dashboard.html    ← live command center, auto-refreshes in browser
 ├── core/             ← product, brand, ICP
@@ -104,7 +106,7 @@ _brain/
 
 ---
 
-100% local. 100% free. 100% open source.
+No subscriptions. 100% free. 100% open source.
 
 Fork it. Adjust it. Make it yours.
 
