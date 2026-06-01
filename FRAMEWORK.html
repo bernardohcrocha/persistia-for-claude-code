@@ -444,7 +444,7 @@
       <div class="protocol-num">01</div>
       <div class="protocol-content">
         <strong>Check the context</strong>
-        <p>Verify whether <code>_brain/index.html</code> already exists. If yes: ask restart or expand? If no: fresh setup — continue. Also check whether a <code>_brain/inbox/</code> folder exists with files already dropped by the user — if yes, jump to step 02 before asking any questions.</p>
+        <p>Verify whether <code>_brain/index.md</code> already exists. If yes: ask restart or expand? If no: fresh setup — continue. Also check whether a <code>_brain/inbox/</code> folder exists with files already dropped by the user — if yes, jump to step 02 before asking any questions.</p>
       </div>
     </div>
 
@@ -538,7 +538,7 @@
   <table>
     <thead><tr><th>Principle</th><th>What it means in practice</th></tr></thead>
     <tbody>
-      <tr><td>index-first</td><td>The agent always reads <code>index.html</code> before any action. The index maps where everything lives.</td></tr>
+      <tr><td>index-first</td><td>The agent always reads <code>index.md</code> before any action. The index maps where everything lives.</td></tr>
       <tr><td>on-demand loading</td><td>Only the relevant sub-file is read per task. Reduces token usage and eliminates hallucination from unnecessary context.</td></tr>
       <tr><td>living brain</td><td>Operations files are automatically updated by cron jobs connected to Stripe, Supabase, and other sources.</td></tr>
       <tr><td>human visibility</td><td>Every file has a header with timestamp ("3h ago") and a countdown to the next update. Stale data is immediately visible.</td></tr>
@@ -555,7 +555,7 @@
   <h2>Folder Structure</h2>
 
   <div class="tree"><span class="d">_brain/</span>
-├── <span class="f">index.html</span>            <span class="c">← master map — read first on every session</span>
+├── <span class="f">index.md</span>            <span class="c">← master map — read first on every session</span>
 ├── <span class="f">FRAMEWORK.html</span>        <span class="c">← this file — system meta-documentation</span>
 │
 ├── <span class="d">core/</span>                 <span class="c">← company foundation — rarely changes</span>
@@ -604,7 +604,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><code>index.html</code></td>
+        <td><code>index.md</code></td>
         <td>—</td>
         <td>Navigation map — the agent reads this first</td>
         <td>When structure changes</td>
@@ -758,7 +758,7 @@
 
 <span class="k">Before any task, follow this protocol:</span>
 
-<span class="v">1. Read `_brain/index.html` — it is the map of all company knowledge</span>
+<span class="v">1. Read `_brain/index.md` — it is the map of all company knowledge</span>
 <span class="v">2. Identify which sub-files are relevant to the current task</span>
 <span class="v">3. Read ONLY those files — do not load unnecessary context</span>
 <span class="v">4. For operational tasks (outreach, content, analysis), also load the relevant `_brain/skills/` file</span>

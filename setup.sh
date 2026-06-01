@@ -13,7 +13,7 @@ PROJECT_DIR="$(pwd)"
 echo ""
 echo "  ╔══════════════════════════════════════╗"
 echo "  ║       Claude Code OS — Setup         ║"
-echo "  ║  Operational Copilot for Solo Founders  ║"
+echo "  ║  Self-updating agentic memory for Claude Code  ║"
 echo "  ╚══════════════════════════════════════╝"
 echo ""
 echo "  Project: $PROJECT_DIR"
@@ -72,7 +72,7 @@ mkdir -p \
 
 echo "  → Downloading templates..."
 
-curl -fsSL "$REPO/templates/_brain/index.html"        -o _brain/index.html
+curl -fsSL "$REPO/templates/_brain/index.md"          -o _brain/index.md
 curl -fsSL "$REPO/templates/_brain/dashboard.html"    -o _brain/dashboard.html
 curl -fsSL "$REPO/templates/_brain/tasks/queue.json"  -o _brain/tasks/queue.json
 

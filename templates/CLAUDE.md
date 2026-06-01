@@ -3,14 +3,14 @@
 > **Session Protocol — run in this order at the start of every conversation:**
 > 1. Check `_brain/inbox/` for any files — process each one immediately, then move to `_brain/archive/YYYY-MM-DD/`. Check `_brain/tasks/queue.json` for pending tasks where `status == "pending"` and `next_run` is in the past — execute each immediately, including daily brain sync if it hasn't run today.
 > 2. Run a quick `git diff HEAD~1 --name-only` — if files changed since last session that haven't been indexed yet, read and update relevant brain sections.
-> 3. Read `_brain/index.html` — the navigation map. Load only the sub-files relevant to the current task.
+> 3. Read `_brain/index.md` — the navigation map. Load only the sub-files relevant to the current task.
 > 4. For recurring operational tasks, load the relevant skill from `_brain/skills/`.
 
 ---
 
 ## Bootstrap Protocol — First Run
 
-**Trigger:** `_brain/index.html` shows `SETUP_STATUS: incomplete`
+**Trigger:** `_brain/index.md` shows `SETUP_STATUS: incomplete`
 
 Run these steps in order. Do not skip. Do not wait for the user to ask.
 
@@ -28,7 +28,7 @@ Also run:
 ```bash
 find . -name ".git" -type d -maxdepth 5 -not -path "./_brain/*" -not -path "./.git"
 ```
-This discovers nested git repositories (e.g. `Dashboard/`, `website/`). Save the list of paths (without `/.git`) to `_brain/index.html` in the SUB_REPOS section — the daily sync and idle detection use this list to monitor each repo independently.
+This discovers nested git repositories (e.g. `Dashboard/`, `website/`). Save the list of paths (without `/.git`) to `_brain/index.md` in the SUB_REPOS section — the daily sync and idle detection use this list to monitor each repo independently.
 
 Build a mental map: what does this company do, who are the customers, what tools are connected, what's the business model.
 
@@ -62,7 +62,7 @@ Create all brain files from your findings + interview answers:
 
 ```
 _brain/
-├── index.html           (update SETUP_STATUS to "complete", fill Quick Reference)
+├── index.md           (update SETUP_STATUS to "complete", fill Quick Reference)
 ├── core/
 │   ├── product.md       (what the product is, how it works, pricing, tech stack)
 │   ├── brand.md         (company name, voice, tone, naming rules)

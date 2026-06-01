@@ -65,7 +65,7 @@ Unlike Hermes Agent, Agent Zero, or OpenClaw — context updates itself. No manu
 ```
 _brain/
 ├── .git/             ← isolated brain repository, pushes to private GitHub remote
-├── index.html        ← agent reads this first, every session
+├── index.md          ← agent reads this first, every session
 ├── dashboard.html    ← live command center, auto-refreshes in browser
 ├── core/             ← product, brand, ICP
 ├── operations/       ← metrics + customers, auto-updated daily
