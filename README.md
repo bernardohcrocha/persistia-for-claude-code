@@ -19,11 +19,19 @@ Claude Code executes well. The problem is it has no **persistent operational mem
 
 Every session starts from zero. Every new feature, every new document, every detail that changed in your project: you had to re-explain it, or dump the entire project as context and pay the token cost. Either way, you're doing work the agent should be doing.
 
-**Claude Code OS fixes that.** A `_brain/` folder lives inside your project root. It reads from your code, docs, and configs on first run. From then on, it updates itself every day, automatically, based on what actually changed.
+**Claude Code OS fixes that.** A `_brain/` folder lives inside your project root. It reads from your code, docs, and configs on first run. From then on, it runs `git diff HEAD~1` every day — 1,000 files in the project, 3 changed today: it reads 3. Not a full re-read. Just the delta.
 
 ---
 
-## It already knows.
+- **Self-updating memory** — reads git diff daily, updates only what changed
+- **Permanent skills** — say it once → written to `_brain/skills/`, loaded at every future session
+- **Scheduled tasks** — set once, runs automatically with full context already loaded
+- **Live dashboard** — `dashboard.html` auto-refreshes every 5 minutes in your browser
+- **Cloud brain backup** — isolated git repo, pushes to a private GitHub remote on every update
+
+---
+
+## No more re-explaining. It reads what changed automatically.
 
 You ship a new payment method. It updates the product knowledge, the customer segments it unlocks, and the metrics to start tracking. You never said a word.
 
@@ -31,11 +39,23 @@ You add brand assets to a folder. Brand guidelines updated automatically.
 
 You come back after a month on a new machine. It reads the files and continues without skipping a beat. No re-explaining your stack. No copy-pasting context. Nothing lost.
 
+One changed file updates every dimension it touches at once: product knowledge, customer segments, metrics, skills. Automatic. Lightweight.
+
 ---
 
-## It acts. Not just remembers.
+## Teach it once. It never forgets.
+
+Say it once: *"When flagging fraud, always cross-check disposable email domains, duplicate names, and signup timing."*
+
+It writes `_brain/skills/fraud.md` immediately. Loaded at every future session start. Applied automatically, forever. No reminders. No editing files. No re-explaining.
+
+---
+
+## Autonomous tasks, always with full context
 
 Ask questions no simple dashboard can answer. Or schedule tasks that run automatically, with full context already loaded.
+
+**Example tasks you can set:**
 
 → *"Which customers dropped usage 30%+ this month? Cross-check their support history and draft a personalized re-engagement message for each."*
 
@@ -47,7 +67,7 @@ Set once. Runs automatically. Already has full context because it lives in the p
 
 ---
 
-## Your live command center.
+## Live dashboard — updated automatically in the background
 
 Open `_brain/dashboard.html` in your browser. It auto-refreshes every 5 minutes.
 
@@ -61,27 +81,28 @@ Want to change anything? Just tell it.
 
 ---
 
-## Token-efficient by design.
-
-Every day, `git diff HEAD~1` detects exactly what changed. 1,000 files in the project, 3 changed today: it reads 3. Not a full re-read. Just the delta.
-
-One changed file updates every dimension it touches at once: product knowledge, customer segments, metrics, skills. Automatic. Lightweight.
-
----
-
-## Every instruction becomes permanent.
-
-Say it once: *"When flagging fraud, always cross-check disposable email domains, duplicate names, and signup timing."*
-
-It writes `_brain/skills/fraud.md` immediately. Loaded at every future session start. Applied automatically, forever. No reminders. No editing files. No re-explaining.
-
----
-
 ## Pair it with speech-to-text.
 
 Add [Wispr Flow](https://wisprflow.ai/) or [handy.computer](https://handy.computer) and it starts feeling like a real super employee you can give orders to from anywhere: desk, commute, walking between meetings.
 
 *"Check if any Pro accounts are near quota and draft a heads-up for each."* Done. While you're making coffee.
+
+---
+
+## Structure
+
+```
+_brain/
+├── .git/             ← isolated brain repository, pushes to private GitHub remote
+├── index.html        ← agent reads this first, every session
+├── dashboard.html    ← live command center, auto-refreshes in browser
+├── core/             ← product, brand, ICP
+├── operations/       ← metrics + customers, auto-updated daily
+├── skills/           ← permanent rules, created and updated automatically
+└── tasks/            ← scheduled tasks queue, managed automatically
+```
+
+→ [How the git architecture works](ARCHITECTURE.md)
 
 ---
 
@@ -100,23 +121,6 @@ Claude scans your entire project, connects to your existing tools, and asks only
 > **Optional:** [GitHub CLI](https://cli.github.com) (`gh`) — if installed and authenticated, setup automatically creates a private brain repository and enables cloud backup with every commit. Format your machine, `git clone` the brain repo, continue exactly where you left off.
 
 > **Scheduler included:** installs automatically (launchd on macOS, systemd on Linux). Catches up on missed tasks after sleep or restart.
-
----
-
-## Structure
-
-```
-_brain/
-├── .git/             ← isolated brain repository, pushes to private GitHub remote
-├── index.html        ← agent reads this first, every session
-├── dashboard.html    ← live command center, auto-refreshes in browser
-├── core/             ← product, brand, ICP
-├── operations/       ← metrics + customers, auto-updated daily
-├── skills/           ← permanent rules, created and updated automatically
-└── tasks/            ← scheduled tasks queue, managed automatically
-```
-
-→ [How the git architecture works](ARCHITECTURE.md)
 
 ---
 
