@@ -4,7 +4,7 @@
 
 **Claude Code OS**
 
-# Persistent memory & autonomous tasks for Claude Code.
+# Self-updating agentic memory for Claude Code.
 
 Turn Claude Code into an agent that remembers, acts, and updates itself as your project changes.
 
