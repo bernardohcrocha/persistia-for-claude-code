@@ -6,6 +6,8 @@
 
 # Persistent memory & autonomous tasks for Claude Code.
 
+Transform Claude Code into an agent that executes tasks, remembers every instruction, and stays up to date automatically as your project changes.
+
 [![MIT License](https://img.shields.io/badge/License-MIT-da7756?style=flat-square)](LICENSE)
 [![Built for Claude Code](https://img.shields.io/badge/Built%20for-Claude%20Code-da7756?style=flat-square&logo=anthropic&logoColor=white)](https://claude.ai/code)
 
