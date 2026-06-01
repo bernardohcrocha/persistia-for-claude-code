@@ -15,75 +15,94 @@ Self-evolving · No extra tools · No workflow changes · Token-efficient · Aut
 
 ---
 
-Claude Code executes well. The problem is it has no **persistent operational memory**.
+Like having a super employee who knows your entire business and is always up to date — without you ever giving context again, even as the codebase and docs change.
 
-Every session starts from zero. Every new feature, every new document, every detail that changed in your project: you had to re-explain it, or dump the entire project as context and pay the token cost. Either way, you're doing work the agent should be doing.
+---
 
-**Claude Code OS fixes that.** A `_brain/` folder lives inside your project root. It reads from your code, docs, and configs on first run. From then on, it runs `git diff HEAD~1` every day — 1,000 files in the project, 3 changed today: it reads 3. Not a full re-read. Just the delta.
+Claude Code executes well. The problem is it has no **operational memory**.
+
+Every session starts from zero — you re-explain your stack, paste context, repeat yourself. Or dump the entire project and pay the token cost. Either way, you're doing work the agent should be doing.
+
+**Claude Code OS fixes that.** A `_brain/` folder lives in your project root. First run: Claude reads everything. Every day after: `git diff HEAD~1` — 1,000 files, 3 changed today: it reads 3.
 
 ---
 
 - **Self-updating memory** — reads git diff daily, updates only what changed
-- **Permanent skills** — say it once → written to `_brain/skills/`, loaded at every future session
-- **Scheduled tasks** — set once, runs automatically with full context already loaded
-- **Live dashboard** — `dashboard.html` auto-refreshes every 5 minutes in your browser
-- **Cloud brain backup** — isolated git repo, pushes to a private GitHub remote on every update
+- **Permanent skills** — say it once → written to `_brain/skills/`, loaded forever
+- **Scheduled tasks** — set once, runs automatically with full context
+- **Live dashboard** — auto-refreshes every 5 min, no conversation needed
+- **Cloud backup** — private git repo, pushed on every update
+
+---
+
+## Without it vs with it
+
+| | Without Claude Code OS | With Claude Code OS |
+|---|---|---|
+| Starting a session | Re-explain stack, paste context | Full context loaded automatically |
+| New feature shipped | Update agent manually or it reasons from stale info | Brain updates itself from the diff |
+| Recurring task | Repeat every session | Set once, runs automatically forever |
+| Instruction given | Forgotten next session | Written to `_brain/skills/`, applied always |
+| Dashboard / status | Open a conversation and ask | Open `dashboard.html`, already updated |
 
 ---
 
 ## No more re-explaining. It reads what changed automatically.
 
-You ship a new payment method. It updates the product knowledge, the customer segments it unlocks, and the metrics to start tracking. You never said a word.
+You ship a new payment method — it updates what the product does, who it unlocks as a customer, and what metric to start tracking. You never said a word.
 
 You add brand assets to a folder. Brand guidelines updated automatically.
 
-You come back after a month on a new machine. It reads the files and continues without skipping a beat. No re-explaining your stack. No copy-pasting context. Nothing lost.
-
-One changed file updates every dimension it touches at once: product knowledge, customer segments, metrics, skills. Automatic. Lightweight.
+You come back after a month on a new machine. It reads the files and picks up exactly where you left off.
 
 ---
 
 ## Teach it once. It never forgets.
 
-Say it once: *"When flagging fraud, always cross-check disposable email domains, duplicate names, and signup timing."*
-
-It writes `_brain/skills/fraud.md` immediately. Loaded at every future session start. Applied automatically, forever. No reminders. No editing files. No re-explaining.
+Say *"always cross-check disposable email domains when flagging fraud"* → it writes `_brain/skills/fraud.md` immediately. Loaded at every future session. Applied automatically. Forever.
 
 ---
 
 ## Autonomous tasks, always with full context
 
-Ask questions no simple dashboard can answer. Or schedule tasks that run automatically, with full context already loaded.
+Schedule any task in plain language. It runs automatically, already knowing your entire product, customers, and metrics.
 
-**Example tasks you can set:**
+**Examples:**
 
 → *"Which customers dropped usage 30%+ this month? Cross-check their support history and draft a personalized re-engagement message for each."*
 
 → *"Every Monday: pull last week's numbers from Stripe, compare against the previous week, flag anomalies, and queue a follow-up for any account that dropped below 10% quota."*
 
-→ *"Find signups from the last 30 days with no activity after signup. Filter out fake-looking domains. Visit each company's website, understand what they do, map it to how similar customers already use the product, and write a personalized email for each, leading with the pain points most relevant to their specific use case."*
-
-Set once. Runs automatically. Already has full context because it lives in the project.
+→ *"Find signups from the last 30 days with no activity. Filter out fake-looking domains. Visit each company's website, map it to how similar customers use the product, and write a personalized email for each — leading with the most relevant pain points."*
 
 ---
 
 ## Live dashboard — updated automatically in the background
 
-Open `_brain/dashboard.html` in your browser. It auto-refreshes every 5 minutes.
+Open `_brain/dashboard.html`. It auto-refreshes every 5 minutes with real metrics, scheduled tasks, and proactive suggestions — built from your actual data, not a fixed template.
 
-No fixed template. The dashboard is built from your actual data and evolves as your business does. Different sections, different metrics, different priorities based on what matters right now.
+*Every 3 days, when the project is idle, it scans across metrics, customers, and channels. Always suggests. Never acts unilaterally.*
 
-Scheduled tasks, proactive suggestions, active projects, weekly review: all updated automatically in the background. You see the results without opening a conversation.
+---
 
-Want to change anything? Just tell it.
+## Why not Hermes Agent, Agent Zero, or OpenClaw?
 
-*Every 3 days, when the project is idle, it scans across metrics, customers, and channels and leaves a note with what it noticed. Always suggests. Never acts on its own.*
+All solid tools. But they share the same fundamental problem: context doesn't update itself. Every new feature, every changed document — you maintain it manually, or the agent reasons from stale information.
+
+| | Claude Code OS | Hermes Agent | Agent Zero | OpenClaw | System prompt |
+|---|:---:|:---:|:---:|:---:|:---:|
+| Always-updated operational context | ✓ | ✗ | ✗ | ✗ | ✗ |
+| Token-efficient updates (git diff only) | ✓ | ✗ | ✗ | ✗ | ✗ |
+| Lives inside your project | ✓ | ✗ | ✗ | ✗ | ✗ |
+| Scheduled autonomous tasks | ✓ | ✓ | ✓ | ✓ | ✗ |
+| No new tools required | ✓ | ✗ | ✗ | ✗ | ✓ |
+| Permanent skill files | ✓ | ✗ | ✗ | ✗ | ✗ |
 
 ---
 
 ## Pair it with speech-to-text.
 
-Add [Wispr Flow](https://wisprflow.ai/) or [handy.computer](https://handy.computer) and it starts feeling like a real super employee you can give orders to from anywhere: desk, commute, walking between meetings.
+Add [Wispr Flow](https://wisprflow.ai/) or [handy.computer](https://handy.computer). Give orders from anywhere — desk, commute, between meetings. It already knows the full context.
 
 *"Check if any Pro accounts are near quota and draft a heads-up for each."* Done. While you're making coffee.
 
@@ -114,11 +133,11 @@ Open Claude Code in your **project root folder**, then run:
 curl -fsSL https://raw.githubusercontent.com/bernardohcrocha/claude-code-os/main/setup.sh | bash
 ```
 
-Claude scans your entire project, connects to your existing tools, and asks only what it can't find. No forms. No config files. Just a conversation.
+Claude scans your project, connects to your existing tools, and asks only what it can't find. No forms. No config files. Just a conversation.
 
 > **Requires:** git · Node.js 18+
 
-> **Optional:** [GitHub CLI](https://cli.github.com) (`gh`) — if installed and authenticated, setup automatically creates a private brain repository and enables cloud backup with every commit. Format your machine, `git clone` the brain repo, continue exactly where you left off.
+> **Optional:** [GitHub CLI](https://cli.github.com) (`gh`) — setup automatically creates a private brain repository and enables cloud backup with every commit. Format your machine, `git clone` the brain repo, continue exactly where you left off.
 
 > **Scheduler included:** installs automatically (launchd on macOS, systemd on Linux). Catches up on missed tasks after sleep or restart.
 
