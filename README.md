@@ -1,8 +1,8 @@
 <div align="center">
 
-![Claude Code OS](claude-code-os.png)
+![Persistia](persistia-for-claude-code.png)
 
-**Claude Code OS**
+**Persistia**
 
 # Self-updating agentic memory for Claude Code.
 
@@ -17,7 +17,7 @@ Turn Claude Code into an agent that remembers and acts seamlessly as your projec
 
 Claude Code has no operational memory. Every session starts from zero — you re-explain your stack, paste context, repeat yourself.
 
-**Claude Code OS fixes that.** A `_brain/` folder lives in your project root and acts as persistent memory. It reads your project once, then self-updates daily from `git diff` — only what changed, nothing more.
+**Persistia fixes that.** A `_brain/` folder lives in your project root and acts as persistent memory. It reads your project once, then self-updates daily from `git diff` — only what changed, nothing more.
 
 ---
 
@@ -26,7 +26,7 @@ Claude Code has no operational memory. Every session starts from zero — you re
 Open Claude Code in your **project root folder**, then run:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/bernardohcrocha/claude-code-os/main/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/bernardohcrocha/persistia-for-claude-code/main/setup.sh | bash
 ```
 
 Claude scans your project and asks only what it can't find. No forms. No config files. Just a conversation.
@@ -79,6 +79,6 @@ _brain/
 
 No subscriptions. 100% free. 100% open source.
 
-*Claude Code is a product of Anthropic. Claude Code OS is an independent open-source project, not affiliated with or endorsed by Anthropic.*
+*Claude Code is a product of Anthropic. Persistia is an independent open-source project, not affiliated with or endorsed by Anthropic.*
 
 MIT License · 2026

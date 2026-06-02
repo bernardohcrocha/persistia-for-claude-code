@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude Code OS — Scheduler Setup
+# Persistia — Scheduler Setup
 # Installs the queue runner to fire every 15 minutes.
 # macOS: launchd (runs missed jobs on wake)
 # Linux: systemd user timer (Persistent=true — runs missed jobs on boot)
@@ -24,7 +24,7 @@ echo ""
 case "$OS" in
 
   Darwin)
-    LABEL="io.claude-code-os.queue-runner.$(basename "$PROJECT_DIR")"
+    LABEL="io.persistia.queue-runner.$(basename "$PROJECT_DIR")"
     PLIST="$HOME/Library/LaunchAgents/$LABEL.plist"
 
     # Unload existing if present
@@ -73,11 +73,11 @@ PLIST_EOF
   Linux)
     UNIT_DIR="$HOME/.config/systemd/user"
     mkdir -p "$UNIT_DIR"
-    UNIT_NAME="claude-code-os-$(basename "$PROJECT_DIR")"
+    UNIT_NAME="persistia-$(basename "$PROJECT_DIR")"
 
     cat > "$UNIT_DIR/$UNIT_NAME.service" << SERVICE_EOF
 [Unit]
-Description=Claude Code OS Queue Runner — $(basename "$PROJECT_DIR")
+Description=Persistia Queue Runner — $(basename "$PROJECT_DIR")
 
 [Service]
 Type=oneshot
@@ -89,7 +89,7 @@ SERVICE_EOF
 
     cat > "$UNIT_DIR/$UNIT_NAME.timer" << TIMER_EOF
 [Unit]
-Description=Claude Code OS — Run every 15 minutes ($(basename "$PROJECT_DIR"))
+Description=Persistia — Run every 15 minutes ($(basename "$PROJECT_DIR"))
 
 [Timer]
 OnBootSec=1min

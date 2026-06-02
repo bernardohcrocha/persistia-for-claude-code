@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Claude Code OS — Task Queue Runner
+ * Persistia — Task Queue Runner
  * Runs every 15 minutes via launchd (macOS) or systemd (Linux).
  * Checks _brain/tasks/queue.json for pending tasks and executes them.
  *

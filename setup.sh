@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# Claude Code OS — Setup Script
-# https://github.com/bernardohcrocha/claude-code-os
+# Persistia — Setup Script
+# https://github.com/bernardohcrocha/persistia-for-claude-code
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/bernardohcrocha/claude-code-os/main/setup.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/bernardohcrocha/persistia-for-claude-code/main/setup.sh | bash
 
 set -e
 
-REPO="https://raw.githubusercontent.com/bernardohcrocha/claude-code-os/main"
+REPO="https://raw.githubusercontent.com/bernardohcrocha/persistia-for-claude-code/main"
 PROJECT_DIR="$(pwd)"
 
 echo ""
 echo "  ╔══════════════════════════════════════╗"
-echo "  ║       Claude Code OS — Setup         ║"
+echo "  ║       Persistia — Setup         ║"
 echo "  ║  Self-updating agentic memory for Claude Code  ║"
 echo "  ╚══════════════════════════════════════╝"
 echo ""
@@ -107,7 +107,7 @@ bash _brain/scripts/setup-scheduler.sh 2>/dev/null || true
 echo "  → Initializing brain repository..."
 git -C _brain init -q
 git -C _brain add .
-git -C _brain commit -m "brain: claude-code-os initial setup" -q
+git -C _brain commit -m "brain: persistia-for-claude-code initial setup" -q
 
 BRAIN_REPO_NAME="$(basename "$PROJECT_DIR")-brain"
 if command -v gh &>/dev/null && gh auth status &>/dev/null 2>&1; then
@@ -131,7 +131,7 @@ fi
 
 echo "  → Committing project files..."
 git add .gitignore CLAUDE.md 2>/dev/null || true
-git commit -m "add: claude-code-os setup" -q 2>/dev/null || true
+git commit -m "add: persistia-for-claude-code setup" -q 2>/dev/null || true
 
 # ── Done ──────────────────────────────────────────────────────────────────────
 
