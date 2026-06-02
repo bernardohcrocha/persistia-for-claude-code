@@ -6,6 +6,21 @@
  *
  * Option A (preferred): invokes `claude -p` directly — fully autonomous.
  * Fallback: writes task to _brain/inbox/ — Claude picks up at next session.
+ *
+ * ── Customization ────────────────────────────────────────────────────────────
+ * Each task in queue.json supports two optional fields:
+ *
+ *   "batch_size": 50
+ *     Limits how many items Claude processes per run. Prevents timeouts and
+ *     context overflow on tasks that deal with large lists (customers, emails,
+ *     signups). On the next scheduled run, remaining items are picked up.
+ *     Set to null (or omit) for tasks that don't process lists.
+ *
+ *   "timeout_minutes": 10
+ *     How long to wait before killing the claude process. Default: 5 minutes.
+ *     Increase for tasks that involve heavy processing or large files.
+ *     Keep low for quick lookups to free up resources faster.
+ * ─────────────────────────────────────────────────────────────────────────────
  */
 
 import { readFile, writeFile, appendFile, mkdir } from 'fs/promises';
@@ -109,12 +124,25 @@ function getNextRun(schedule) {
   return null;
 }
 
+function buildPrompt(task) {
+  // Inject batch limit into the prompt when batch_size is set.
+  // This tells Claude to cap the number of items per run, preventing
+  // timeouts and context overflow on large datasets (customers, emails, etc.).
+  if (!task.batch_size) return task.prompt;
+  return task.prompt +
+    `\n\nVolume limit: process a maximum of ${task.batch_size} items in this run.` +
+    ` If there are more, process the first ${task.batch_size} only —` +
+    ` the next scheduled run will pick up the remaining items.`;
+}
+
 async function runWithClaude(claudeBin, task) {
   await log(`Invoking claude for: ${task.name}`);
-  const result = spawnSync(claudeBin, ['-p', task.prompt], {
+  // timeout_minutes per task — default 5 min. Increase for heavy tasks.
+  const timeoutMs = (task.timeout_minutes ?? 5) * 60_000;
+  const result = spawnSync(claudeBin, ['-p', buildPrompt(task)], {
     cwd:      PROJECT_DIR,
     encoding: 'utf8',
-    timeout:  300_000, // 5 minutes
+    timeout:  timeoutMs,
     env:      process.env,
   });
 

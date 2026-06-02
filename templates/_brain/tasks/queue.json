@@ -1,15 +1,22 @@
 {
   "version": "1.0",
+  "_docs": {
+    "batch_size": "Max items Claude processes per run. Prevents timeouts on large lists (customers, emails, signups). null = no limit. Example: 50",
+    "timeout_minutes": "How long before the claude process is killed. Default: 5. Increase for heavy tasks. Example: 15",
+    "schedule_types": "interval (hours), daily (time: HH:MM), weekly (day + time: HH:MM)"
+  },
   "tasks": [
     {
       "id": "proactive-check",
       "name": "Proactive Opportunity Check",
-      "description": "Runs every 3 days when project is idle \u2014 cross-dimensional scan, always suggests and asks before acting",
-      "prompt": "Run a proactive opportunity check. (1) Read _brain/index.md, all files in _brain/core/, and _brain/operations/ to understand current business state. (2) Look for opportunities across ALL dimensions \u2014 not just metrics: customer contact channels available (phone, WhatsApp, email, LinkedIn) that aren't being used for follow-up; customer segments being under-served or not contacted recently; tools referenced in code or .env that could be better connected or automated; patterns in customer behavior worth acting on; processes done manually that could be scheduled; skill gaps \u2014 recurring instructions not yet captured as a permanent skill. (3) For each finding, phrase as a suggestion that asks the owner's opinion \u2014 never assume, never act unilaterally. Format: 'I noticed [observation] \u2014 would it make sense to [specific action]? What do you think?' (4) Write results to TWO places: _brain/inbox/proactive-YYYY-MM-DD.md (for next session to surface immediately) AND _brain/operations/proactive-latest.md (persistent \u2014 always overwrite with latest). (5) Update the Proactive Suggestions section in _brain/dashboard.html: replace the content between <!-- PROACTIVE_START --> and <!-- PROACTIVE_END --> with 3-5 bullet points summarizing your findings. (6) If you noticed a recurring pattern that should be a skill, create or update _brain/skills/[area].md. (7) Auto-commit: git -C _brain add . && git -C _brain commit -m 'brain: proactive check YYYY-MM-DD' && git -C _brain push 2>/dev/null || true.",
+      "description": "Runs every 3 days when project is idle — cross-dimensional scan, always suggests and asks before acting",
+      "prompt": "Run a proactive opportunity check. (1) Read _brain/index.md, all files in _brain/core/, and _brain/operations/ to understand current business state. (2) Look for opportunities across ALL dimensions — not just metrics: customer contact channels available (phone, WhatsApp, email, LinkedIn) that aren't being used for follow-up; customer segments being under-served or not contacted recently; tools referenced in code or .env that could be better connected or automated; patterns in customer behavior worth acting on; processes done manually that could be scheduled; skill gaps — recurring instructions not yet captured as a permanent skill. (3) For each finding, phrase as a suggestion that asks the owner's opinion — never assume, never act unilaterally. Format: 'I noticed [observation] — would it make sense to [specific action]? What do you think?' (4) Write results to TWO places: _brain/inbox/proactive-YYYY-MM-DD.md (for next session to surface immediately) AND _brain/operations/proactive-latest.md (persistent — always overwrite with latest). (5) Update the Proactive Suggestions section in _brain/dashboard.html: replace the content between <!-- PROACTIVE_START --> and <!-- PROACTIVE_END --> with 3-5 bullet points summarizing your findings. (6) If you noticed a recurring pattern that should be a skill, create or update _brain/skills/[area].md. (7) Auto-commit: git -C _brain add . && git -C _brain commit -m 'brain: proactive check YYYY-MM-DD' && git -C _brain push 2>/dev/null || true.",
       "schedule": {
         "type": "interval",
         "hours": 72
       },
+      "batch_size": null,
+      "timeout_minutes": 5,
       "last_run": null,
       "next_run": null,
       "status": "pending",
@@ -18,12 +25,14 @@
     {
       "id": "daily-brain-sync",
       "name": "Daily Brain Sync",
-      "description": "Incremental project scan via git diff \u2014 updates brain with what changed today",
-      "prompt": "Run daily brain sync: (1) Discover all nested git repos: `find . -name '.git' -type d -maxdepth 5 -not -path './_brain/*' -not -path './.git'` \u2014 strip /.git to get repo paths. (2) Detect changed files safely \u2014 run `git diff HEAD~1 --name-only 2>/dev/null || git status --short` at the project root (handles repos with a single commit). Also run `git -C [path] diff HEAD~1 --name-only 2>/dev/null || git -C [path] status --short` for each nested repo found. Combine the full list of changed files across all repos. (3) Read each changed file. (4) For each changed file, think cross-dimensionally \u2014 a single change can affect multiple brain files. Examples: a new payment method in code \u2192 update _brain/core/product.md (feature, how it works) AND _brain/core/icp.md (new customer segments enabled, new use cases) AND _brain/operations/metrics.html (new conversion metric to track) AND possibly create _brain/core/integrations.md if integrations are growing into their own category; new brand assets \u2192 update _brain/core/brand.md; new pricing tier \u2192 update product.md AND icp.md AND metrics. For every change ask: which other brain files need to know about this? Update all affected files. If a new category of content has no existing brain file, create the appropriate dedicated file in _brain/core/ or _brain/operations/. (5) If new non-code files found (PDFs, notes, exports, images): extract knowledge and update all relevant brain files. (6) After all updates: if any new brain files were created or significant new categories indexed, update _brain/index.md \u2014 add new entries to the Navigation Map table and update Quick Reference if key business facts changed. (7) Update the Key Metrics and Brain Status sections in _brain/dashboard.html with current values. (8) Auto-commit and push: `git -C _brain add . && git -C _brain commit -m 'brain: daily sync' && git -C _brain push 2>/dev/null || true`.",
+      "description": "Incremental project scan via git diff — updates brain with what changed today",
+      "prompt": "Run daily brain sync: (1) Discover all nested git repos: `find . -name '.git' -type d -maxdepth 5 -not -path './_brain/*' -not -path './.git'` — strip /.git to get repo paths. (2) Detect changed files safely — run `git diff HEAD~1 --name-only 2>/dev/null || git status --short` at the project root (handles repos with a single commit). Also run `git -C [path] diff HEAD~1 --name-only 2>/dev/null || git -C [path] status --short` for each nested repo found. Combine the full list of changed files across all repos. (3) Read each changed file. (4) For each changed file, think cross-dimensionally — a single change can affect multiple brain files. Examples: a new payment method in code → update _brain/core/product.md (feature, how it works) AND _brain/core/icp.md (new customer segments enabled, new use cases) AND _brain/operations/metrics.html (new conversion metric to track) AND possibly create _brain/core/integrations.md if integrations are growing into their own category; new brand assets → update _brain/core/brand.md; new pricing tier → update product.md AND icp.md AND metrics. For every change ask: which other brain files need to know about this? Update all affected files. If a new category of content has no existing brain file, create the appropriate dedicated file in _brain/core/ or _brain/operations/. (5) If new non-code files found (PDFs, notes, exports, images): extract knowledge and update all relevant brain files. (6) After all updates: if any new brain files were created or significant new categories indexed, update _brain/index.md — add new entries to the Navigation Map table and update Quick Reference if key business facts changed. (7) Update the Key Metrics and Brain Status sections in _brain/dashboard.html with current values. (8) Auto-commit and push: `git -C _brain add . && git -C _brain commit -m 'brain: daily sync' && git -C _brain push 2>/dev/null || true`.",
       "schedule": {
         "type": "daily",
         "time": "09:00"
       },
+      "batch_size": null,
+      "timeout_minutes": 5,
       "last_run": null,
       "next_run": null,
       "status": "pending",
@@ -32,13 +41,15 @@
     {
       "id": "weekly-brain-review",
       "name": "Weekly Brain Review",
-      "description": "Full business review \u2014 metrics, projects, customers, health check, report",
-      "prompt": "Run the weekly brain review: (1) Read _brain/operations/metrics.html \u2014 compare key metrics to last week, flag any anomaly. (2) Review active projects in _brain/index.md \u2014 check their status and flag anything blocked or delayed. (3) Review _brain/skills/ \u2014 identify any gaps based on recent sessions. (4) Check _brain/scripts/queue-runner.log for recent errors \u2014 if any, surface them in the report. (5) Generate a report with: what is going well, what is anomalous, top 3 opportunities to act on this week, 1 thing to fix. Save the report to _brain/tasks/weekly-review-YYYY-MM-DD.md. (6) Update _brain/dashboard.html: replace content between <!-- WEEKLY_START --> and <!-- WEEKLY_END --> with a concise summary (what's going well, top 3 opportunities, 1 thing to fix) formatted as bullet points; also update the span with id='weekly-date' to today's date. (7) Auto-commit and push: `git -C _brain add . && git -C _brain commit -m 'brain: weekly review YYYY-MM-DD' && git -C _brain push 2>/dev/null || true`.",
+      "description": "Full business review — metrics, projects, customers, health check, report",
+      "prompt": "Run the weekly brain review: (1) Read _brain/operations/metrics.html — compare key metrics to last week, flag any anomaly. (2) Review active projects in _brain/index.md — check their status and flag anything blocked or delayed. (3) Review _brain/skills/ — identify any gaps based on recent sessions. (4) Check _brain/scripts/queue-runner.log for recent errors — if any, surface them in the report. (5) Generate a report with: what is going well, what is anomalous, top 3 opportunities to act on this week, 1 thing to fix. Save the report to _brain/tasks/weekly-review-YYYY-MM-DD.md. (6) Update _brain/dashboard.html: replace content between <!-- WEEKLY_START --> and <!-- WEEKLY_END --> with a concise summary (what's going well, top 3 opportunities, 1 thing to fix) formatted as bullet points; also update the span with id='weekly-date' to today's date. (7) Auto-commit and push: `git -C _brain add . && git -C _brain commit -m 'brain: weekly review YYYY-MM-DD' && git -C _brain push 2>/dev/null || true`.",
       "schedule": {
         "type": "weekly",
         "day": "monday",
         "time": "09:00"
       },
+      "batch_size": null,
+      "timeout_minutes": 10,
       "last_run": null,
       "next_run": null,
       "status": "pending",

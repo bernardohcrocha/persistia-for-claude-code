@@ -48,7 +48,7 @@ Claude scans your project and asks only what it can't find. No forms. No config 
 - **Initial indexing** — on first run, scans your entire project: code, docs, configs, and environment files. Asks only what it can't find on its own. Uses credentials you already have — no manual reconnection.
 - **Self-updating memory** — runs `git diff` daily. Only what changed gets read. No unnecessary context loaded.
 - **Permanent skills** — say it once → written to `_brain/skills/`, loaded at every future session
-- **Autonomous tasks** — schedule any task in plain language, runs automatically with full context
+- **Autonomous tasks** — schedule any task in plain language, runs automatically with full context. Each task in `_brain/tasks/queue.json` supports `batch_size` (cap items per run — prevents timeouts on large lists) and `timeout_minutes` (default: 5). Easy to customize.
 - **Proactive scan** — every 3 days when idle, it scans metrics, customers, and channels and flags what it notices. Always suggests, never acts unilaterally.
 - **Live dashboard** — open `_brain/dashboard.html`, auto-refreshes every 5 min
 - **Shareable memory** — its own private git repo. Format your machine, `git clone` the brain repo, continue exactly where you left off. Shareable with your team.
