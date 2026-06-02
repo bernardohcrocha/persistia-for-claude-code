@@ -55,6 +55,8 @@ Claude scans your project and asks only what it can't find. No forms. No config 
 
 Unlike Hermes Agent, Agent Zero, or OpenClaw — context updates itself. No manual maintenance required.
 
+Everything in `_brain/` is plain text — readable, editable, and version-controlled.
+
 ---
 
 ## Make Claude Code your operational co-pilot
