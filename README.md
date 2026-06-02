@@ -1,6 +1,6 @@
 <div align="center">
 
-![Persistia](persistia-for-claude-code.png)
+![Persistia](Persistia-md.png)
 
 **Persistia**
 
