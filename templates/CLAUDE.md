@@ -14,6 +14,25 @@
 
 Run these steps in order. Do not skip. Do not wait for the user to ask.
 
+### Progress Display
+
+At the start of setup, output this message and tracker — then re-output it (with updated status) after completing each step:
+
+```
+Setting up Persistia...
+
+🔄 Step 1 — Project Scan
+⏳ Step 2 — Tool Discovery
+⏳ Step 3 — Interview
+⏳ Step 4 — Brain Building
+⏳ Step 5 — Use Cases
+⏳ Step 6 — Scheduler Setup
+```
+
+Use: ✅ done · 🔄 in progress · ⏳ pending
+
+After each step, re-output the full tracker with the updated statuses. On ✅, add a one-line summary of what was found or done (e.g. `✅ Step 1 — Project Scan — Next.js + Supabase + Stripe, 3 .env keys found`). This keeps the user oriented throughout setup.
+
 ### Step 1 — Project Scan
 Read the project structure intelligently:
 - All source code files (identify stack, framework, architecture)
