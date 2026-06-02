@@ -17,7 +17,7 @@ Give Claude Code the persistent memory it was missing and turn it into your oper
 
 Claude Code has no operational memory. Every session starts from zero. You re-explain your stack, paste context, repeat yourself.
 
-**Persistia fixes that.** On first run, it scans your entire project — code, architecture, docs, and configs. Reads your `.env` files and uses credentials you already have. Stores everything in small, focused files with a navigation index. Then monitors changes via `git diff`: 1,000 files, 3 changed, it reads 3.
+**Persistia fixes that.** On first run, it scans your entire project — code, architecture, docs, and configs. Reads your `.env` files and uses credentials you already have. Stores everything in small, focused files with a navigation index. Then monitors changes via `git diff`: 1,000 files, 3 changed, it reads 3. Token-efficient by design.
 
 **The result:** an agent that always knows your full project and stays up-to-date automatically — even as you ship new features, add docs, or change your stack.
 
@@ -44,7 +44,7 @@ Claude scans your project and asks only what it can't find. No forms. No config 
 ## How it works
 
 - **Initial indexing** — on first run, scans your entire project: code, docs, configs, and environment files. Asks only what it can't find on its own. Uses credentials you already have — no manual reconnection.
-- **Self-updating memory** — runs `git diff` daily. Only what changed gets read. Token-efficient by design.
+- **Self-updating memory** — runs `git diff` daily. Only what changed gets read. No unnecessary context loaded.
 - **Permanent skills** — say it once → written to `_brain/skills/`, loaded at every future session
 - **Autonomous tasks** — schedule any task in plain language, runs automatically with full context
 - **Proactive scan** — every 3 days when idle, it scans metrics, customers, and channels and flags what it notices. Always suggests, never acts unilaterally.
