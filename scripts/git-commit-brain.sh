@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude Code OS — Auto Git Backup for Brain
+# Persistia — Auto Git Backup for Brain
 # Commits and pushes all changes in _brain/ to its private remote.
 # Usage: bash _brain/scripts/git-commit-brain.sh "optional message"
 

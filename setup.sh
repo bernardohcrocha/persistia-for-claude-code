@@ -11,10 +11,10 @@ REPO="https://raw.githubusercontent.com/bernardohcrocha/persistia-for-claude-cod
 PROJECT_DIR="$(pwd)"
 
 echo ""
-echo "  ╔══════════════════════════════════════╗"
-echo "  ║       Persistia — Setup         ║"
-echo "  ║  Self-updating agentic memory for Claude Code  ║"
-echo "  ╚══════════════════════════════════════╝"
+echo "  ╔════════════════════════════════════════════════╗"
+echo "  ║              Persistia — Setup                ║"
+echo "  ║  Self-updating persistent memory for Claude   ║"
+echo "  ╚════════════════════════════════════════════════╝"
 echo ""
 echo "  Project: $PROJECT_DIR"
 echo ""
@@ -136,9 +136,9 @@ git commit -m "add: persistia-for-claude-code setup" -q 2>/dev/null || true
 # ── Done ──────────────────────────────────────────────────────────────────────
 
 echo ""
-echo "  ╔══════════════════════════════════════╗"
-echo "  ║           ✅  Setup complete!         ║"
-echo "  ╚══════════════════════════════════════╝"
+echo "  ╔════════════════════════════════════════════════╗"
+echo "  ║             ✅  Setup complete!               ║"
+echo "  ╚════════════════════════════════════════════════╝"
 echo ""
 echo "  Next step:"
 echo ""
