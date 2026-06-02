@@ -92,13 +92,36 @@ _brain/
 
 Auto-commit after each file is created.
 
-### Step 5 — Use Cases
-Based on what you found in the actual project, suggest 5 specific things you can do. Be concrete — use the company's real metrics, customers, and tools. Not generic examples.
+### Step 5 — What you can do now
 
-Example format:
-*"Here are 5 things I can do for [company] right now:
-1. Every Monday: pull this week's [metric] from [tool] and flag any anomaly
-2. ..."*
+Output the block below using the real tools, metrics, and data found during setup. Replace every placeholder with actual names (e.g. "Stripe", "Supabase", the company's real primary metric). Keep it tight — no preamble, no explanation around the examples.
+
+---
+
+✅ **Persistia is live.** Here's what you can do right now:
+
+**💬 Ask**
+→ "Which customers dropped usage 30%+ this month — and do they have open support tickets?"
+→ "What's our best-converting channel this week, and what did those users do in their first session?"
+→ "Which [free/trial] users from the last 14 days are most likely to convert based on usage patterns?"
+
+**⚡ Give orders**
+→ "Find churned customers from last month, check their last support interaction, and draft a personalized win-back email for each."
+→ "Pull at-risk accounts from [tool], cross-check their usage, and draft a check-in message for each."
+→ "Find signups from the last 30 days with no activity and write a personalized outreach for each."
+
+**⏰ Schedule**
+→ "Every Monday: pull numbers from [tool], cross-reference usage, flag any account below quota."
+→ "Every 3 days: check which customers haven't been contacted in 2+ weeks and queue a follow-up."
+→ "Daily at 9am: sync metrics from [tool], update the dashboard, flag any anomaly."
+
+---
+
+Then immediately ask — do not wait for the user to prompt you:
+
+*"What do you want to tackle first? I can start on any of these right now — or just tell me what's on your mind."*
+
+If the user seems unsure, proactively suggest the most relevant one based on what you found during the scan: *"Based on what I found in your project, [specific suggestion] seems like the highest-value starting point. Want me to run it?"*
 
 ### Step 6 — Scheduler Setup
 Activate all scheduled tasks automatically. Do not ask for permission — this is part of setup.
