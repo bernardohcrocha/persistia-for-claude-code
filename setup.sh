@@ -46,7 +46,9 @@ echo ""
 if ! git rev-parse --git-dir &>/dev/null; then
   echo "  → Initializing project git..."
   git init -q
-  git commit --allow-empty -m "initial commit" -q
+  # Use -c flags as fallback so setup works even without global git user config
+  git -c user.email="setup@persistia.local" -c user.name="Persistia Setup" \
+    commit --allow-empty -m "initial commit" -q
 fi
 
 # Brain has its own git — exclude it from project git
@@ -107,7 +109,8 @@ bash _brain/scripts/setup-scheduler.sh 2>/dev/null || true
 echo "  → Initializing brain repository..."
 git -C _brain init -q
 git -C _brain add .
-git -C _brain commit -m "brain: persistia-for-claude-code initial setup" -q
+git -C _brain -c user.email="setup@persistia.local" -c user.name="Persistia Setup" \
+  commit -m "brain: persistia-for-claude-code initial setup" -q
 
 BRAIN_REPO_NAME="$(basename "$PROJECT_DIR")-brain"
 if command -v gh &>/dev/null && gh auth status &>/dev/null 2>&1; then
