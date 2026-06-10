@@ -127,6 +127,8 @@ If the `claude` CLI isn't found, the runner writes the task to `_brain/inbox/` i
 | Machine on, you're away | 15-min timer fires `claude -p`, brain updates on its own |
 | You open a new session | Brain already reflects everything that changed |
 
+All schedules are plain text in `_brain/tasks/queue.json`. To adjust any frequency, just ask — *"Run the proactive check weekly instead of every 3 days"* — Claude updates it on the spot.
+
 ---
 
 No subscriptions. 100% free. 100% open source.
