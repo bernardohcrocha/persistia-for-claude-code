@@ -17,9 +17,9 @@ Give Claude Code the persistent memory it was missing and turn it into your oper
 
 Claude Code has no operational memory. Every session starts from zero. You re-explain your stack, paste context, repeat yourself.
 
-**Persistia fixes that.** On first run, it scans your entire project — code, architecture, docs, and configs. Reads your `.env` files and uses credentials you already have. Stores everything in small, focused files with a navigation index. Then monitors changes via `git diff`: 1,000 files, 3 changed, it reads 3. Token-efficient by design.
+**Persistia fixes that.** On first run, it scans your entire project — code, docs, brand assets, financial models, marketing briefs, configs. Reads your `.env` files and uses credentials you already have. Stores everything in small, focused files with a navigation index. Then monitors changes via `git diff`: 1,000 files, 3 changed, it reads 3. Token-efficient by design.
 
-**The result:** an agent that always knows your full project and stays up-to-date automatically — even as you ship new features, add docs, or change your stack.
+**The result:** an agent that always knows your full project and stays up-to-date automatically — even as you ship new features, update your positioning, or revise your financial model.
 
 **Minimum input. Maximum output.**
 
@@ -40,6 +40,43 @@ Claude scans your project and asks only what it can't find. No forms. No config 
 > **Optional:** [GitHub CLI](https://cli.github.com) (`gh`) — automatically creates a private brain repository with cloud backup on every update. Format your machine, `git clone` the brain repo, continue exactly where you left off.
 
 > **Scheduler included:** installs automatically (launchd on macOS, systemd on Linux).
+
+---
+
+## Under the hood
+
+Persistia has two engines.
+
+**Engine 1 — every time you open Claude Code**
+
+`CLAUDE.md` is a native Claude Code feature: Claude reads it automatically at the start of every session. Persistia fills that file with a session protocol that runs before Claude responds to anything:
+
+1. Check `_brain/inbox/` for new files — process and archive them
+2. Run `git diff HEAD~1 --name-only` — read only what changed since last session, update the brain
+3. Read `_brain/index.md` (the navigation map) — load only the sub-files relevant to the current task
+4. Load the relevant skill from `_brain/skills/` if the task has one
+
+It doesn't matter what kind of file changed. A new pricing page, a revised ICP doc, an updated financial model, a rewritten onboarding email — Claude reads the diff, updates the brain, and carries that context forward. No manual re-explaining.
+
+**Engine 2 — background, even when Claude is closed**
+
+Setup installs a system scheduler (launchd on macOS, systemd on Linux) that fires `queue-runner.mjs` every 15 minutes. When a task is due, the runner calls `claude -p "<prompt>"` — Claude CLI in headless mode — which opens your project, reads `CLAUDE.md`, runs the task, writes to `_brain/`, and auto-commits. No window, no interaction required.
+
+Three tasks run by default: daily brain sync at 9am, weekly review every Monday at 9am, and a proactive opportunity check every 3 days (only when the project is idle — no commits in the last hour, so it never fires while you're actively working).
+
+If the `claude` CLI isn't found, the runner writes the task to `_brain/inbox/` instead — Engine 1 picks it up at your next session.
+
+**Your day to day**
+
+| Situation | What happens |
+|---|---|
+| You open Claude Code | Reads inbox + git diff + index.md, updates brain before responding |
+| You ship a new feature or push code | Brain auto-indexes the change — stack, architecture, and integrations stay current |
+| You update a doc, spreadsheet, or marketing brief | Same — brain picks it up via git diff, next session Claude already knows |
+| You say "always do X" | Claude creates `_brain/skills/x.md` immediately, no questions |
+| You say "every Monday do Y" | Becomes a task in `queue.json`, runs automatically via Engine 2 |
+| Machine on, you're away | 15-min timer fires `claude -p`, brain updates on its own |
+| You open a new session | Brain already reflects everything that changed |
 
 ---
 
